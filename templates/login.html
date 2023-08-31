@@ -1,0 +1,98 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Legalator</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="{{ url_for('static',filename='css/main.css') }}" />
+		<noscript><link rel="stylesheet" href="{{ url_for('static',filename='css/noscript.css') }}" /></noscript>
+    <script type="text/javascript" src="{{url_for('static', filename='js/jquery.js')}}"></script>
+    <style>
+      a:hover {
+			  color:#0b58ca;
+		  }
+    </style>
+	</head>
+
+  <body>
+    <!-- Header -->
+    <div id="page-wrapper">
+      <header id="header" class="alt">
+        <h1><a href="index.html">LEGALATOR</a></h1>
+        <nav id="nav">
+          <ul>
+            <li class="special">
+              <a href="#menu" class="menuToggle"><span>Menu</span></a>
+              <div id="menu">
+                <ul>
+                  <li><a href="/">Home</a></li>
+                  <li><a href="/search/page">Start Searching</a></li>
+                  <li><a href="/#one">About Us</a></li>
+                  <li><a href="/#cta">Contact Us</a></li>
+                  <li style="font-weight: bold;"><a href="/user/login/page">Log In</a></li>
+                  <li ><a href="/user/signup/page">Sign Up</a></li>
+                </ul>
+              </div>
+            </li>
+          </ul>
+        </nav>
+      </header>
+
+      <div style="height: 100vh; padding-left: 5vw; padding-right: 5vw;">
+        <h2>Login</h2>
+        <form id="loginForm" action="/user/login/post" method="POST">
+          <div class="mb-3" style="margin-bottom:3vh;">
+            <label for="emailInput" class="form-label" style="margin-bottom: 0;">Email</label>
+            <input type="email" class="form-control" id="emailInput" name="emailInput" aria-describedby="emailHelp">
+          </div>
+          <div class="mb-3">
+            <label for="passwordInput" class="form-label" style="margin-bottom: 0;">Password</label>
+            <input type="password" class="form-control" id="passwordInput" name="passwordInput">
+          </div>
+          <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="exampleCheck1" onclick="showPassword()">
+            <label class="form-check-label" for="exampleCheck1" style="margin-top: 1vh;" >Show Password</label>
+          </div>
+          <button type="submit" class="btn btn-primary" style="margin-top: 3vh;">Log In</button>
+        </form>
+        <a href="/user/signup/page"><p>Don't have an account yet? Sign up</p></a>
+      </div>
+
+
+      <!-- Footer -->
+      <footer id="footer">
+        <ul class="icons">
+          <li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+          <li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+          <li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+          <li><a href="#" class="icon brands fa-dribbble"><span class="label">Dribbble</span></a></li>
+          <li><a href="#" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
+        </ul>
+        <ul class="copyright">
+          <li>&copy; Legalator.AI</li>
+        </ul>
+      </footer>
+    </div>
+      <!-- Scripts -->
+    <script type="text/javascript">
+      function showPassword() {
+        var x = document.getElementById("passwordInput");
+        if (x.type === "password") {
+          x.type = "text";
+        } else {
+          x.type = "password";
+        }
+      }
+    </script>
+    <script src="{{ url_for('static',filename='js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='js/jquery.scrollex.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='js/jquery.scrolly.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='js/browser.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='js/breakpoints.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='js/util.js') }}"></script>
+    <script src="{{ url_for('static',filename='js/main.js') }}"></script>
+
+  </body>
+
+
+</html>
