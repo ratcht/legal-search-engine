@@ -34,7 +34,7 @@ def parse_userobj(map: map) -> UserObj:
   username = map["Username"]
   email = map["Email"]
   password_encrypted = map["PasswordEncrypted"]
-  track_statistics = map["TrackStatistics"]
+  track_statistics = map.get("TrackStatistics")
   return UserObj(username, email, password_encrypted, track_statistics)
 
 

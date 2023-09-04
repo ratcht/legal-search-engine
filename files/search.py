@@ -64,7 +64,7 @@ def create_query(query: str, type: SearchType, pinecone_index: pinecone.Index, E
 
 def search(prompt: str, type: SearchType, pinecone_index: pinecone.Index, GPT_MODEL: str, EMBEDDING_MODEL: str, GPT_PROMPT:str):
   try:
-    message, titles, excerpts = create_query(prompt, type, pinecone_index, EMBEDDING_MODEL=EMBEDDING_MODEL, GPT_MODEL=GPT_MODEL, GPT_PROMPT=GPT_PROMPT, token_budget=12000-4000)
+    message, titles, excerpts = create_query(prompt, type, pinecone_index, EMBEDDING_MODEL=EMBEDDING_MODEL, GPT_MODEL=GPT_MODEL, GPT_PROMPT=GPT_PROMPT, token_budget=16000-4000)
   except Exception as e:
     raise Exception(f"From create_query()... {e}")
 
