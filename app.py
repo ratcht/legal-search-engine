@@ -96,6 +96,9 @@ def chat():
   # Get User
   user = parse_userobj(session["user"])
 
+  if not user.can_search():
+    return redirect(url_for("index"))
+
   # Get chat input
   logging.info("In /search/query")
   search_input = request.form["searchInput"]
@@ -138,6 +141,12 @@ def search_history():
     logging.error(ve)
     return redirect(url_for("login_page"))
   
+  # Get User
+  user = parse_userobj(session["user"])
+
+  if not user.can_search():
+    return redirect(url_for("index"))
+
   logging.info(f'Search: {session["search"]}')
   return render_template("partials/search-partial.html", loaded_search_history=parse_search_history(json.loads(session["search"])))
 
@@ -154,6 +163,11 @@ def clear():
     logging.error(ve)
     return redirect(url_for("login_page"))
   
+  # Get User
+  user = parse_userobj(session["user"])
+
+  if not user.can_search():
+    return redirect(url_for("index"))
 
   # set session if not set
   if "search" in session:
@@ -175,6 +189,10 @@ def search_page():
     return redirect(url_for("login_page"))
   
   user = parse_userobj(session["user"])
+
+  if not user.can_search():
+    return redirect(url_for("index"))
+
   
   search_type_arg = request.args.get("search_type")
   search_type = SearchType(search_type_arg) if search_type_arg else SearchType.CASE_LAW

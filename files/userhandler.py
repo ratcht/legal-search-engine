@@ -15,7 +15,7 @@ log.addHandler(logging.StreamHandler(sys.stdout))
 log.setLevel(logging.DEBUG)
 
 def create_user(username:str, email:str, password:str):
-  user = UserObj(username, email, password)
+  user = UserObj(username, email, password, paid=False)
   user_value_map = user.to_map()
 
   create_datastore_entry(["User", email], user_value_map)
@@ -34,6 +34,6 @@ def login(email: str, entered_password:str) -> str:
   if not bcrypt.checkpw(entered_password, stored_password): raise KeyError("Login: Password does not match")
   
   # Password matches. Get token
-  user = UserObj(user_map['Username'], user_map['Email'], user_map['PasswordEncrypted'])
+  user = UserObj(user_map['Username'], user_map['Email'], user_map['PasswordEncrypted'], user_map["Paid"])
 
   return user

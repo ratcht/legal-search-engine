@@ -37,12 +37,14 @@ def rank_strings_pinecone(
   print("Indexed Pinecone")
 
   relatednesses = []
+  id = []
   metadata = []
   for match in pinecone_res['matches']:
+    id.append(match['id'])
     metadata.append(match['metadata'])
     relatednesses.append(match['score'])
 
-  return metadata, relatednesses
+  return metadata, id, relatednesses
 
 def upload_to_pinecone(df: pd.DataFrame, pinecone_index: pinecone.Index, batch_size: int = 32):
 

@@ -4,22 +4,24 @@ import jwt
 import logging
 
 class UserObj:
-  def __init__(self, username:str, email:str, password:str, track_statistics=True):
+  def __init__(self, username:str, email:str, password:str, paid:bool,track_statistics=True):
     self.username = username
     self.email = email
+    self.paid = paid
     self.track_statistics = track_statistics
     self.password_encrypted = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt(10)).decode('utf-8')
   
 
-  def can_search() -> bool:
+  def can_search(self) -> bool:
     # check if user has a valid account
-    pass
+    return self.paid
 
   def to_map(self) -> map:
     return {
       "Username": self.username,
       "Email": self.email,
       "PasswordEncrypted": self.password_encrypted ,
+      "Paid": self.paid,
       "TrackStatistics":self.track_statistics
     }
   
@@ -34,8 +36,9 @@ def parse_userobj(map: map) -> UserObj:
   username = map["Username"]
   email = map["Email"]
   password_encrypted = map["PasswordEncrypted"]
+  paid = map["Paid"]
   track_statistics = map.get("TrackStatistics")
-  return UserObj(username, email, password_encrypted, track_statistics)
+  return UserObj(username, email, password_encrypted, paid,track_statistics)
 
 
 def verify_token(token: str):

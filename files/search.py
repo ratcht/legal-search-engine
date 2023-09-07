@@ -6,11 +6,9 @@ from files.util import ComplexEncoder, filter_list
 import logging
 import json
 import os
-import pinecone
-
-from files.api.openai import create_embedding, num_tokens
 from files.api.pinecone import rank_strings_pinecone
 from files.obj.searchtype import SearchType
+from files.api.datastore import get_datastore_entry
 import pandas as pd
 import pinecone
 import logging
@@ -35,8 +33,10 @@ def create_df(chunks: list, title: str, EMBEDDING_MODEL: str, batch_size = 1000)
 
 def create_query(query: str, type: SearchType, pinecone_index: pinecone.Index, EMBEDDING_MODEL: str, GPT_MODEL: str, GPT_PROMPT: str, token_budget: int):
   """Return a message for GPT, with relevant source texts pulled from a dataframe."""
-  metadata, relatedness = rank_strings_pinecone(query, pinecone_index, EMBEDDING_MODEL, top_n=15)
+  metadata, ids, relatedness = rank_strings_pinecone(query, pinecone_index, EMBEDDING_MODEL, top_n=15)
   logging.info("Finished ranking strings")
+
+  chunks = []
 
   metadata_type_filtered = [metadata_group for metadata_group in metadata if metadata_group["type"] == type.value]
   logging.info("Type filtered")
@@ -47,10 +47,10 @@ def create_query(query: str, type: SearchType, pinecone_index: pinecone.Index, E
   excerpts = []
 
   titles = []
-  for metadata_group in metadata_type_filtered:
+  for metadata_group, id in zip(metadata_type_filtered,ids):
     title = metadata_group["title"]
     titles.append(title)
-    next_article = f'\n\Document Title: {title}. Excerpt:\n"""\n{metadata_group["text"]}\n"""'
+    next_article = f'\n\Document Title: {title}. Excerpt:\n"""\n{get_datastore_entry("Chunk", id)["Text"]}\n"""'
     logging.info("=======NEXT ARTICLE=========")
     logging.info(next_article)
 
