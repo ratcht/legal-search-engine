@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Legalator Demo</title>
+    <title>Legalator</title>
     <link rel="stylesheet" href="{{ url_for('static',filename='css/index.css') }}">
     <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
     <link rel="stylesheet" href="{{ url_for('static',filename='css/bootstrap/bootstrap.css') }}">
@@ -28,7 +28,7 @@
   <body style="background-color: #1e1e1e;">
     <div id="page-wrapper">
       <!-- Header -->
-      <header id="header" class="alt">
+      <header id="header" class="alt" style="background-color: #1e1e1e; height:10.5vh;">
         <nav style="left:0 !important;">
           <img src="{{ url_for('static',filename='images/'+search_type.name+'.png') }}" alt="Legalator" style="width:25vh; height:6.5vh;margin-top:2.5vh;margin-left:2vw;">
         </nav>
@@ -60,10 +60,9 @@
           <div class="form-row" style="padding-top: 1vh;">
             <div class="input-group">
               <input id="searchInput" value="{% if search_obj is defined %}{{ search_obj.prompt }}{% endif %}" name="searchInput" type="text" class="form-control" placeholder="Enter your query..."  aria-describedby="basic-addon2" >
-              <div class="input-group-append">
-                <input id="searchButton button-addon2" style="width: 20vw;max-width: 150px;" class="btn btn-outline-secondary" type="submit" value="Search"/>
-                <input type="hidden" name="searchType" value="{{search_type.value}}">
-              </div>
+                
+              <input id="button-addon2" class="btn btn-outline-secondary" type="submit" value="Search"/>
+              <input type="hidden" name="searchType" value="{{search_type.value}}">
             </div>
           </div>
         </form>

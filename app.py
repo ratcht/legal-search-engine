@@ -22,33 +22,23 @@ import sys
 import jwt
 
 
-
-
-
 # init logging
 logging.basicConfig(level=logging.NOTSET)
 
 # authenticate openai
-#OPENAI_API_KEY = get_config_value("OPENAI_API_KEY")
-
-
-OPENAI_API_KEY = "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"
-OPENAI_ORGANIZATION = "org-DvAz8SnW4Vt9CwGalt79rGzp"
+OPENAI_API_KEY = get_config_value("OPENAI_API_KEY")
+OPENAI_ORGANIZATION = get_config_value("OPENAI_ORGANIZATION")
 authenticate(OPENAI_API_KEY, OPENAI_ORGANIZATION)
 
-#PINECONE_API_KEY = get_config_value("PINECONE_API_KEY")
-PINECONE_API_KEY = "490d0cec-93e9-4769-a318-62c21305ad94"
-#PINECONE_ENVIRONMENT = get_config_value("PINECONE_ENVIRONMENT")
-PINECONE_ENVIRONMENT = "gcp-starter"
-#PINECONE_INDEX_VALUE = get_config_value("PINECONE_INDEX")
-PINECONE_INDEX_VALUE = "legalator-ai"
+PINECONE_API_KEY = get_config_value("PINECONE_API_KEY")
+PINECONE_ENVIRONMENT = get_config_value("PINECONE_ENVIRONMENT")
+PINECONE_INDEX_VALUE = get_config_value("PINECONE_INDEX")
 
-#EMBEDDING_MODEL = get_config_value("EMBEDDING_MODEL")
-EMBEDDING_MODEL = "text-embedding-ada-002"
-#GPT_MODEL = get_config_value("GPT_MODEL")
-GPT_MODEL = "gpt-3.5-turbo-16k"
-#GPT_USER_PROMPT = get_config_value("GPT_USER_PROMPT")
-GPT_USER_PROMPT = "Use the provided excerpts, including the title of the document, to answer the subsequent question. Do not use the phrase 'the excerpt' in your response, instead state the title of the document. Try to frame the answer as clearly as possible. Use the previous response as inspiration for the formatting. Make sure your answer is detailed but not too wordy. Be sure to include details about exceptions or relevant information and quotations from the excerpts if possible. If a direct answer cannot be found in the information, try to give a broader answer based on all the excerpts provided, referring to knowledge of Pakistani Law.'"
+
+EMBEDDING_MODEL = get_config_value("EMBEDDING_MODEL")
+GPT_MODEL = get_config_value("GPT_MODEL")
+GPT_USER_PROMPT = get_config_value("GPT_USER_PROMPT")
+
 
 pinecone_index = get_pinecone_index(PINECONE_API_KEY, PINECONE_ENVIRONMENT, PINECONE_INDEX_VALUE)
 

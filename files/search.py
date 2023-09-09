@@ -38,6 +38,7 @@ def create_query(query: str, type: SearchType, pinecone_index: pinecone.Index, E
 
   chunks = []
 
+
   metadata_type_filtered = [metadata_group for metadata_group in metadata if metadata_group["type"] == type.value]
   logging.info("Type filtered")
 
@@ -50,9 +51,10 @@ def create_query(query: str, type: SearchType, pinecone_index: pinecone.Index, E
   for metadata_group, id in zip(metadata_type_filtered,ids):
     title = metadata_group["title"]
     titles.append(title)
-    next_article = f'\n\Document Title: {title}. Excerpt:\n"""\n{get_datastore_entry("Chunk", id)["Text"]}\n"""'
-    logging.info("=======NEXT ARTICLE=========")
-    logging.info(next_article)
+
+    datastore_entry = get_datastore_entry("Chunk", id)
+    next_article = f'\n\Document Title: {title}. Excerpt:\n"""\n{datastore_entry["Text"]}\n"""'
+
 
     if (num_tokens(message + next_article + question, model=GPT_MODEL) > token_budget):
       break
