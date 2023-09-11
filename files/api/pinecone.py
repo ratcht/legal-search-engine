@@ -3,6 +3,7 @@ from files.api.openai import create_embedding, num_tokens
 import logging
 from werkzeug.utils import secure_filename
 import pinecone
+from files.obj.searchtype import SearchType
 
 def get_pinecone_index(API_KEY, ENVIRONMENT, INDEX) -> pinecone.Index:
   pinecone.init(
@@ -22,6 +23,7 @@ def rank_strings_pinecone(
   query: str,
   pinecone_index: pinecone.Index,
   EMBEDDING_MODEL: str,
+  type: SearchType,
   top_n: int = 100
   ):
 
@@ -33,7 +35,7 @@ def rank_strings_pinecone(
   query_embedding = query_embedding_response["data"][0]["embedding"]
   print("Created Embedding")
 
-  pinecone_res = pinecone_index.query(query_embedding, top_k=top_n, include_metadata=True)
+  pinecone_res = pinecone_index.query(query_embedding, top_k=top_n, include_metadata=True, filter={"type": type.value})
   print("Indexed Pinecone")
 
   relatednesses = []

@@ -1,104 +1,161 @@
-<!DOCTYPE HTML>
-<html>
-	<head>
-		<title>Legalator</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="{{ url_for('static',filename='css/main.css') }}" />
-		<noscript><link rel="stylesheet" href="{{ url_for('static',filename='css/noscript.css') }}" /></noscript>
-    <script type="text/javascript" src="{{url_for('static', filename='js/jquery.js')}}"></script>
-    <style>
-      a:hover {
-			  color:#0b58ca;
-		  }
-    </style>
-	</head>
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
 
-  <body>
-    <!-- Header -->
-    <div id="page-wrapper">
-      <header id="header" class="alt">
-        <h1><a href="index.html">LEGALATOR</a></h1>
-        <nav id="nav">
-          <ul>
-            <li class="special">
-              <a href="#menu" class="menuToggle"><span>Menu</span></a>
-              <div id="menu">
-                <ul>
-                  <li><a href="/">Home</a></li>
-                  <li><a href="/search/page">Start Searching</a></li>
-                  <li><a href="/#one">About Us</a></li>
-                  <li><a href="/#cta">Contact Us</a></li>
-                  <li><a href="/user/login/page">Log In</a></li>
-                  <li style="font-weight: bold;"><a href="/user/signup/page">Sign Up</a></li>
-                </ul>
-              </div>
-            </li>
-          </ul>
-        </nav>
-      </header>
+<head>
+    <!-- Required meta tags -->
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+    <!-- Title -->
+    <title>LegalatorAI - The Premier Legal Search Engine</title>
+  
+    <!-- SEO meta tags -->
+    <meta name="description" content="Author: Marvel Theme, AI search engine html5 and Bootstrap 5 landing page template" />
+  
+    <!-- Favicon -->
+    <link rel="icon" href="{{ url_for('static',filename='assets/images/favicon.svg') }}" type="image/svg+xml" />
+  
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static',filename='assets/css/plugins.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static',filename='assets/css/style.css') }}" />
+  
+  </head>
 
-      <div style="height: 100vh; padding-left: 5vw; padding-right: 5vw;">
-        <h2>Signup</h2>
-        <form id="signupForm" action="/user/signup/post" method="POST">
-          <div class="mb-3" style="margin-bottom:3vh;">
-            <label for="usernameInput" class="form-label" style="margin-bottom: 0;">Username</label>
-            <input type="text" class="form-control" id="usernameInput" name="usernameInput" aria-describedby="emailHelp">
-          </div>
-          <div class="mb-3" style="margin-bottom:3vh;">
-            <label for="emailInput" class="form-label" style="margin-bottom: 0;">Email address</label>
-            <input type="email" class="form-control" id="emailInput" name="emailInput" aria-describedby="emailHelp">
-            <small id="emailHelp" class="form-text" style="font-size: 1.5vh;">We'll never share your email with anyone else.</small>
-          </div>
-          <div class="mb-3">
-            <label for="passwordInput" class="form-label" style="margin-bottom: 0;">Password</label>
-            <input type="password" class="form-control" id="passwordInput" name="passwordInput">
-          </div>
-          <div class="mb-3 form-check">
-            <input type="checkbox" class="form-check-input" id="exampleCheck1" onclick="showPassword()">
-            <label class="form-check-label" for="exampleCheck1" style="margin-top: 1vh;" >Show Password</label>
-          </div>
-          <button type="submit" class="btn btn-primary" style="margin-top: 3vh;">Sign Up</button>
-        </form>
-        <a href="/user/login/page"><p>Already have an account? Log in</p></a>
+<body>
+    <div class="wrapper d-flex flex-column justify-between">
+        <main class="flex-grow-1">
+            <section class="account-section login-page py-6 h-full">
+                <div class="container-fluid h-full">
+                    <div class="row h-full">
+                        <div class="col-lg-6 d-none d-lg-block" data-aos="fade-up-sm" data-aos-delay="50">
+                            <div class="bg-dark-blue-4 border rounded-4 h-full p-6 p-md-20 text-center d-flex flex-column justify-center">
+                                <h2 class="text-white mb-12">
+                                    Unlock the Power of the<br class="d-none d-xl-block" />
+                                    <span class="text-primary-dark">Legalator.AI</span> Search Engine
+                                </h2>
+                                <img src="{{ url_for('static',filename='assets/images/screens/screen-5.png') }}" alt="" class="img-fluid w-full" />
+                            </div>
+                        </div>
+                        <div class="col-lg-6" data-aos="fade-up-sm" data-aos-delay="100">
+                            <div class="close-btn">
+                                <a href="/home" class="icon bg-gradient-3 text-white w-12 h-12 rounded p-3 border border-white border-opacity-10 d-flex align-center justify-center ms-auto">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                        <g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                            <path d="M18 6 6 18M6 6l12 12" />
+                                        </g>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class="account-wrapper h-full d-flex flex-column justify-center">
+                                <div class="text-center">
+                                    <a href="">
+                                        <img src="{{ url_for('static',filename='images/legalator.png') }}" alt="" class="img-fluid" width="165" />
+                                    </a>
 
-      </div>
-
-
-      <!-- Footer -->
-      <footer id="footer">
-        <ul class="icons">
-          <li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
-          <li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
-          <li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
-          <li><a href="#" class="icon brands fa-dribbble"><span class="label">Dribbble</span></a></li>
-          <li><a href="#" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
-        </ul>
-        <ul class="copyright">
-          <li>&copy; Legalator.AI</li>
-        </ul>
-      </footer>
+                                    <form id="signupForm" action="/user/signup/post" method="POST" class="vstack gap-4" style="margin-top: 2.2vh;">
+                                        <div class="text-start">
+                                            <div class="input-group with-icon">
+                                                <span class="icon">
+														<svg
+															xmlns="http://www.w3.org/2000/svg"
+															fill="none"
+															viewBox="0 0 18 18">
+															<g
+																stroke="currentColor"
+																stroke-linecap="round"
+																stroke-linejoin="round"
+																stroke-width="1.2">
+																<path
+																	d="M2.25 5.25a1.5 1.5 0 0 1 1.5-1.5h10.5a1.5 1.5 0 0 1 1.5 1.5v7.5a1.5 1.5 0 0 1-1.5 1.5H3.75a1.5 1.5 0 0 1-1.5-1.5v-7.5Z" />
+																<path d="M2.25 5.25 9 9.75l6.75-4.5" />
+															</g>
+														</svg>
+													</span>
+                                                <input type="text" id="usernameInput" name="usernameInput"  class="form-control rounded-2 py-4" placeholder="Enter Your Username" />
+                                            </div>
+                                        </div>
+                                        <div class="text-start">
+                                            <div class="input-group with-icon">
+                                                <span class="icon">
+														<svg
+															xmlns="http://www.w3.org/2000/svg"
+															fill="none"
+															stroke="currentColor"
+															stroke-linecap="round"
+															stroke-linejoin="round"
+															stroke-width="1.5"
+															viewBox="0 0 24 24">
+															<path stroke="none" d="M0 0h24v24H0z" />
+															<path
+																d="M12 3a12 12 0 0 0 8.5 3A12 12 0 0 1 12 21 12 12 0 0 1 3.5 6 12 12 0 0 0 12 3" />
+															<circle cx="12" cy="11" r="1" />
+															<path d="M12 12v2.5" />
+														</svg>
+													</span>
+                                                <input type="email" class="form-control rounded-2 py-4" id="emailInput" name="emailInput" placeholder="Enter Your Email" id="passwordInput" name="passwordInput"/>
+                                            </div>
+                                        </div>
+                                        <div class="text-start">
+                                            <div class="input-group with-icon">
+                                                <span class="icon">
+														<svg
+															xmlns="http://www.w3.org/2000/svg"
+															fill="none"
+															stroke="currentColor"
+															stroke-linecap="round"
+															stroke-linejoin="round"
+															stroke-width="1.5"
+															viewBox="0 0 24 24">
+															<path stroke="none" d="M0 0h24v24H0z" />
+															<path
+																d="M12 3a12 12 0 0 0 8.5 3A12 12 0 0 1 12 21 12 12 0 0 1 3.5 6 12 12 0 0 0 12 3" />
+															<circle cx="12" cy="11" r="1" />
+															<path d="M12 12v2.5" />
+														</svg>
+													</span>
+                                                <input type="password" class="form-control rounded-2 py-4" placeholder="Password" id="passwordInput" name="passwordInput"/>
+                                            </div>
+                                        </div>
+                                        <div class="text-start">
+                                            <input type="checkbox" class="form-check-input" id="exampleCheck1" onclick="showPassword()">
+                                            <label class="form-check-label" for="exampleCheck1" >Show Password</label>
+                                          </div>
+                                        <div class="text-center">
+                                            <button type="submit" class="btn btn-primary-dark w-full py-4">
+                                                Create an account
+                                            </button>
+                                        </div>
+                                        <div class="text-center">
+                                            <p>
+                                                Already have an account?
+                                                <a href="/user/login/page" class="text-decoration-none"> Log in </a>
+                                            </p>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
     </div>
-      <!-- Scripts -->
+
+
+    <!-- JS -->
     <script type="text/javascript">
-      function showPassword() {
-        var x = document.getElementById("passwordInput");
-        if (x.type === "password") {
-          x.type = "text";
-        } else {
-          x.type = "password";
+        function showPassword() {
+          var x = document.getElementById("passwordInput");
+          if (x.type === "password") {
+            x.type = "text";
+          } else {
+            x.type = "password";
+          }
         }
-      }
-    </script>
-    <script src="{{ url_for('static',filename='js/jquery.min.js') }}"></script>
-    <script src="{{ url_for('static',filename='js/jquery.scrollex.min.js') }}"></script>
-    <script src="{{ url_for('static',filename='js/jquery.scrolly.min.js') }}"></script>
-    <script src="{{ url_for('static',filename='js/browser.min.js') }}"></script>
-    <script src="{{ url_for('static',filename='js/breakpoints.min.js') }}"></script>
-    <script src="{{ url_for('static',filename='js/util.js') }}"></script>
-    <script src="{{ url_for('static',filename='js/main.js') }}"></script>
-
-  </body>
-
+      </script>
+    <script src="{{ url_for('static',filename='assets/js/plugins.js') }}"></script>
+    <script src="{{ url_for('static',filename='assets/js/main.js') }}"></script>
+</body>
 
 </html>

@@ -717,6 +717,11 @@ progress {
   width: 16.6666666667%;
 }
 
+.col-1 {
+  flex: 0 0 auto;
+  width: 8.33333333%;
+}
+
 .col-auto {
   flex: 0 0 auto;
   width: auto;
@@ -781,6 +786,114 @@ progress {
   flex: 0 0 auto;
   width: 100%;
 }
+
+.col-13 {
+  flex: 0 0 auto;
+  width: 83.33333333%;
+}
+
+.col-14 {
+  flex: 0 0 auto;
+  width: 91.66666667%;
+}
+
+.col-15 {
+  flex: 0 0 auto;
+  width: 100%;
+}
+
+.col-16-1 {
+  flex: 0 0 auto;
+  width: 6.25%;
+}
+
+.col-16-2 {
+  flex: 0 0 auto;
+  width: 12.5%;
+}
+
+.col-16-3 {
+  flex: 0 0 auto;
+  width: 18.75%;
+}
+
+.col-16-4 {
+  flex: 0 0 auto;
+  width: 25%;
+}
+
+.col-16-5 {
+  flex: 0 0 auto;
+  width: 31.25%;
+}
+
+.col-16-6 {
+  flex: 0 0 auto;
+  width: 37.5%;
+}
+
+.col-16-7 {
+  flex: 0 0 auto;
+  width: 43.75%;
+}
+
+.col-16-8 {
+  flex: 0 0 auto;
+  width: 50%;
+}
+
+.col-16-9 {
+  flex: 0 0 auto;
+  width: 56.25%;
+}
+
+.col-16-10 {
+  flex: 0 0 auto;
+  width: 62.5%;
+}
+
+.col-16-11 {
+  flex: 0 0 auto;
+  width: 68.75%;
+}
+
+.col-16-12 {
+  flex: 0 0 auto;
+  width: 75%;
+}
+
+.col-16-13 {
+  flex: 0 0 auto;
+  width: 81.25%;
+}
+
+.col-16-14 {
+  flex: 0 0 auto;
+  width: 87.5%;
+}
+
+.col-16-15 {
+  flex: 0 0 auto;
+  width: 93.75%;
+}
+
+.col-16-16 {
+  flex: 0 0 auto;
+  width: 100%;
+}
+
+.col-20-1{
+  width:5%;
+}
+
+.col-20-2{
+  width:10%;
+}
+
+.col-20-3{
+  width:15%;
+}
+
 
 .offset-1 {
   margin-left: 8.33333333%;
@@ -3248,13 +3361,13 @@ textarea.form-control-lg {
 }
 
 .btn-outline-primary {
-  color: #0d6efd;
-  border-color: #0d6efd;
+  color: #15eda0;
+  border-color: #15eda0;
 }
 .btn-outline-primary:hover {
   color: #fff;
-  background-color: #0d6efd;
-  border-color: #0d6efd;
+  background-color: #15eda0;
+  border-color: #15eda0;
 }
 .btn-check:focus + .btn-outline-primary, .btn-outline-primary:focus {
   box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.5);

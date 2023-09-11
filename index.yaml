@@ -1,0 +1,7 @@
+indexes:
+- kind: Statistics
+  properties:
+  - name: User
+  - name: Type
+  - name: Time Added
+    direction: desc

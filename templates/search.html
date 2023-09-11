@@ -1,103 +1,376 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
 
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Legalator</title>
-    <link rel="stylesheet" href="{{ url_for('static',filename='css/index.css') }}">
-    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+<head>
+    <!-- Required meta tags -->
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Title -->
+    <title>LegalatorAI - The Premier Legal Search Engine</title>
+
+    <!-- SEO meta tags -->
+    <meta name="description" content="Author: Marvel Theme, AI search engine html5 and Bootstrap 5 landing page template" />
+
+    <!-- Favicon -->
+    <link rel="icon" href="{{ url_for('static',filename='assets/images/favicon.svg') }}" type="image/svg+xml" />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static',filename='assets/css/plugins.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static',filename='assets/css/style.css') }}" />
     <link rel="stylesheet" href="{{ url_for('static',filename='css/bootstrap/bootstrap.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static',filename='css/main.css') }}">
-
     <script type="text/javascript" src="{{url_for('static', filename='js/jquery.js')}}"></script>
     <script type="text/javascript" src="{{url_for('static', filename='js/bootstrap/bootstrap.js')}}"></script>
+    <script src="https://kit.fontawesome.com/4d4c02bfa5.js" crossorigin="anonymous"></script>
+
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+
     <style>
-    #HASH {
-      display: flex;
-      justify-content: space-between;
+      .custom-btn-doxplore {
+    text-align: left;
+    color: white;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    background-color: transparent;
+    border: 2px solid #252525;
+    font-family: 'Poppins';
+    font-weight: lighter;
+    cursor: pointer;
+    transition: 0.3s;
     }
-    </style>
-    <!--<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+
+    .custom-btn-doxplore-active {
+    text-align: left;
+    color: white;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    background-color: transparent;
+    border: 2px solid #3beeaf;
+    color:#3beeaf;
+    font-family: 'Poppins';
+    font-weight: lighter;
+    cursor: pointer;
+    transition: 0.3s;
+    }
+
+
+
+    .custom-btn-doxplore:hover {
+        background-color: #3beeaf;
+        color:white;
+        fill:white;
+    }
+
+    .custom-btn-doxplore-active:hover {
+    color: #3beeaf;
+    }
+
+    .custom-btn-casex {
+    text-align: left;
+    color: white;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    background-color: transparent;
+    border: 2px solid #252525;
+    font-family: 'Poppins';
+    font-weight: lighter;
+    cursor: pointer;
+    transition: 0.3s;
+    }
+
+    .custom-btn {
+    text-align: center;
+    color: white;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    background-color: transparent;
+    border: 2px solid #585858;
+    font-family: 'Poppins';
+    font-weight: lighter;
+    cursor: pointer;
+    transition: 0.3s;
+    }
+
+    .custom-btn:hover {
+      background-color: #1aa037;
+        color:white;
+        fill:white;
+    }
+
+    .custom-btn-casex-active {
+    text-align: left;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    background-color: transparent;
+    border: 2px solid #FFBD59;
+    color:#FFBD59;
+    font-family: 'Poppins';
+    font-weight: lighter;
+    cursor: pointer;
+    transition: 0.3s;
+    }
+
+    .custom-btn-casex-active:hover {
+    color: #FFBD59;
+    }
+
+    .custom-btn-casex:hover {
+        background-color: #FFBD59;
+        color:white;
+        fill:white;
+    }
+
     
-  -->
-  </head>
 
-  <body style="background-color: #1e1e1e;">
-    <div id="page-wrapper">
-      <!-- Header -->
-      <header id="header" class="alt" style="background-color: #1e1e1e; height:10.5vh;">
-        <nav style="left:0 !important;">
-          <img src="{{ url_for('static',filename='images/'+search_type.name+'.png') }}" alt="Legalator" style="width:25vh; height:6.5vh;margin-top:2.5vh;margin-left:2vw;">
-        </nav>
-        <nav id="nav">
-          <ul>
-            <li class="special">
-              <a href="#menu" class="menuToggle"><span>Menu</span></a>
-              <div id="menu">
-                <ul>
-                  <li><a href="/">Home</a></li>
-                  <li><a href="/search/page" style="font-weight: bold;">Start Searching</a></li>
-                  <li><a href="/#one">About Us</a></li>
-                  <li><a href="/#cta">Contact Us</a></li>
-                  <li><a href="/user/signout">Sign Out</a></li>
-                  <p style="margin-top: 3%;">{{user.username}}</p>
-                </ul>
-              </div>
-            </li>
-          </ul>
-        </nav>
-      </header>
+    .custom-btn img {
+        float: left;
+    }
 
-      <div class="container-fluid" style="padding-right:2vw;padding-left: 2vw;padding-top: 3.5vh; margin:0 !important;">
-        <div id="HASH" class="blue-msg">
-          <span id="time-HASH" class="smalltext"><a href="/search/page?search_type={{search_type.opposite().value}}" style="border-bottom: 0;">Switch to searching by {{search_type.opposite().value}}s</a></span>
-          <span class="ios-circle"><a href="/search/clear" style="border-bottom: 0;">Clear</a></span>
+
+    #searchInput{
+      background-color: transparent;
+      color: white;
+      border-color: #303030;
+      padding-top: 0.8%;
+      padding-left: 1.5%;
+      padding-right: 2.5%;
+      -webkit-border-radius: 10px 0 0px 10px;
+      -moz-border-radius: 10px 0 0px 10px;
+      border-radius: 10px 0 0px 10px;
+      padding-bottom: 0.8%;
+    }
+
+    #searchInput:focus{
+      border-color: white;
+      box-shadow: none;
+    }
+
+    #searchInput::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+      color: white;
+      opacity: 0.5; /* Firefox */
+    }
+
+    #searchInput:-ms-input-placeholder { /* Internet Explorer 10-11 */
+      color: white;
+      opacity: 0.5; /* Firefox */
+    }
+
+    #searchInput::-ms-input-placeholder { /* Microsoft Edge */
+      color: white;
+      opacity: 0.5; /* Firefox */
+    }
+
+    .promptRow{
+      background-color: #222225;
+      color:white;
+      -webkit-border-radius: 10px;
+      -moz-border-radius: 10px;
+      border-radius: 10px;
+      margin-bottom: 1vh;
+      padding-top: 1.5vh;
+      padding-bottom: 1.5vh;
+      font-size: 1.9vh;
+    }
+
+
+    </style>
+
+</head>
+
+
+<body style="background-color: #0d0d0f;">
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-20-1" style="background-color: #131314;height:100vh; border-right-style: solid;border-color: #292929; text-align: center;">
+          <div class="d-flex align-items-start justify-content-center" style="padding-top:30%; height:50vh;">
+            <a href="/home">
+              <img src="{{ url_for('static',filename='assets/images/favicon.svg') }}" alt="" width="40" />
+            </a>
+          </div>
+          <div class="d-flex align-items-end justify-content-center" style="height:40vh;padding-bottom:50%;">
+            <a href="/profile">
+              <img src="{{ url_for('static',filename='css/images/profile.svg') }}" alt="" width="42" />
+            </a>
+          </div>
+          <div class="d-flex align-items-end justify-content-center" style="height:9vh;padding-bottom:50%;">
+            <a href="/home">
+              <img src="{{ url_for('static',filename='css/images/exit.svg') }}" alt="" width="35" style="margin-right: 0.4vw;" />
+            </a>
+          </div>
         </div>
-        <form id="searchForm" action="/search/query" method="POST">
-          <div class="form-row" style="padding-top: 1vh;">
-            <div class="input-group">
-              <input id="searchInput" value="{% if search_obj is defined %}{{ search_obj.prompt }}{% endif %}" name="searchInput" type="text" class="form-control" placeholder="Enter your query..."  aria-describedby="basic-addon2" >
-                
-              <input id="button-addon2" class="btn btn-outline-secondary" type="submit" value="Search"/>
-              <input type="hidden" name="searchType" value="{{search_type.value}}">
+        <div class="col-20-3" style="border-right-style: solid;border-color: #292929;">
+          <div class="row" style="padding-top:7%; padding-left: 10%;">
+            <h2 style="font-size: 2.6vh; color:white;">Search using...</h2>
+          </div>
+          <div class="row justify-content-center" style="padding-top:5%;">
+            <a href="/search/page?search_type=Legal+Book" value="Legal Book" id="doxplorebtn" class="custom-btn-doxplore" style="width:75%; padding-top:4%; padding-bottom: 4%; text-decoration: none;">
+              <p id="doxplorep" style="margin-bottom: 0;margin-right: 6%; font-size: 2vh;">Doxplore</p>
+            </a>
+          </div>
+          <div class="row justify-content-center" style="padding-top:5%;">
+            <a href="/search/page?search_type=Case+Law" value="Case Law" id="casexbtn" class="custom-btn-casex" style="width:75%; padding-top:4%; padding-bottom: 4%;text-decoration: none;">
+              <p id="casexp" style="margin-bottom: 0;margin-right: 6%; font-size: 2vh;">CaseX</p>
+            </a>
+          </div>
+          
+          <div class="row justify-content-center" style="padding-top:5%; margin-top: 2vh;">
+            <button onclick="loadSearch('{{search_type.value}}')"value="{{search_type.value}}" id="loadHistory" class="custom-btn" style="width:75%; padding-top:4%; padding-bottom: 4%;text-decoration: none;">
+              <p id="loadHistoryP" style="margin-bottom: 0;margin-right: 6%; font-size: 2vh;">Load History</p>
+            </button>
+          </div>
+          <div class="row justify-content-center" style="padding-top:5%;">
+            <button onclick="clearChat()" id="clearChat" class="custom-btn" style="width:75%; padding-top:4%; padding-bottom: 4%;text-decoration: none;">
+              <p id="clearChat" style="margin-bottom: 0;margin-right: 6%; font-size: 2vh;">Clear Chat</p>
+            </button>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="d-flex align-items-start" style="height:92vh; width:100%;">
+            <div class="overflow-auto" style="height:90%; width:100%; padding-top: 3vh; flex-direction: column-reverse; display:flex;">
+              <div class="container-fluid" id="tempSearch">
+
+              </div>
+              <div class="container-fluid" id="searchLoader">
+
+              </div>
             </div>
           </div>
-        </form>
-        <div class="form-row">
-          <span id="textResponse" style="white-space: pre-line">{% if search_obj is defined %}{{ search_obj.response }}{% endif %}</span>
-        </div>
-        <div id="titlesList" class="form-row" style="margin-top:2%;">
-          {% if search_obj is defined %}
-          <h5>Relevant Documents:</h3>
-            {% for title in search_obj.titles %}
-              <p id="title">{{title}}</p>
-            {% endfor %}
-          {% endif %}
-        </div>
-        <!-- SHOWING EXCERPTS
-        <div class="form-row" style="margin-top:2%;">
+          <div class="d-flex align-items-end justify-content-center" style="height:8vh;">
+            <div id="searchForm" style="width:90%; margin-bottom: 4vh;">
+              <div class="form-row" style="padding-top: 1vh;">
+                <div class="input-group">
+                  <input style="font-size: 2vh;" id="searchInput" value="{% if search_obj is defined %}{{ search_obj.prompt }}{% endif %}" name="searchInput" type="text" class="form-control" placeholder="Enter your query..."  aria-describedby="basic-addon2" >
+                    
+                  <button id="sendButton button-addon2" class="btn btn-outline-secondary" type="submit"><i class="fa-regular fa-paper-plane"></i></input>
+                </div>
+              </div>
+              <input id="searchType" type="hidden" name="searchType" value="{{search_type.value}}">
+            </div>
+          </div>
           
         </div>
-        -->
       </div>
 
+
+    </div>
+    <script>
+        function loadSearch(type, cut=5, start=0) {
+          console.log("In!")
+          fetch("/search/list?recent="+cut.toString()+"&type="+type, {
+            method:"GET"
+          }).then(response => {
+            return response.text();
+          }).then(html => {    
+            document.getElementById("searchLoader").innerHTML = html;
+          })
+        }
+
+        function clearChat(){
+          document.getElementById("searchLoader").innerHTML = "";
+
+        }
+      
+      $(function() {
+
+
+        function setTempPrompt(prompt){
+          let text = `<div class="row promptRow" style="width:100%; ">
+  <div class="col-20-1">
+    <i class="fa-solid fa-user" style="margin-left: 1vh;"></i>
   </div>
+  <div class="col" style="padding-left: 0;">
+    <p style="margin-bottom: 0; white-space: pre-line;">${prompt}</p>
+  </div>
+</div>`;
+
+          document.getElementById("tempSearch").innerHTML = text;
+
+        }
+
+        const searchType = document.getElementById("searchType").value;
+        console.log(searchType);
+
+        setSearchType(searchType);
+
+        function setSearchType(searchType){
+          if (searchType == "Case Law"){
+            const className = document.getElementById("casexbtn").className;
+            document.getElementById("casexbtn").className= className+"-active"
+          } else if (searchType == "Legal Book"){
+            const className = document.getElementById("doxplorebtn").className;
+            document.getElementById("doxplorebtn").className= className+"-active"
+          }
+        }
 
 
-    
-    		<!-- Scripts -->
-			<script src="{{ url_for('static',filename='js/jquery.min.js') }}"></script>
-			<script src="{{ url_for('static',filename='js/jquery.scrollex.min.js') }}"></script>
-      <script src="{{ url_for('static',filename='js/jquery.scrolly.min.js') }}"></script>
-      <script src="{{ url_for('static',filename='js/browser.min.js') }}"></script>
-      <script src="{{ url_for('static',filename='js/breakpoints.min.js') }}"></script>
-      <script src="{{ url_for('static',filename='js/util.js') }}"></script>
-      <script src="{{ url_for('static',filename='js/main.js') }}"></script>
-
-  </body>
 
 
+        //load search
+
+        const button = document.getElementById("sendButton button-addon2");
+        button.addEventListener("click", newSearch);
+        
+        document.getElementById("searchInput")
+        .addEventListener("keyup", function(event) {
+        event.preventDefault();
+          if (event.keyCode === 13) {
+            button.click();
+          }
+        });
+
+        
+
+        function addSearch(html) {
+          document.getElementById("searchLoader").innerHTML += html
+        }
+
+        function newSearch() {
+          // Get Input box value
+          const searchInput = document.getElementById("searchInput").value;
+          const searchType = document.getElementById("searchType").value;
+
+          if (searchInput.length == 0) return;
+
+          // Clear inputBox
+          document.getElementById("searchInput").value = "";
+
+
+          // Update Temp Search
+          setTempPrompt(searchInput);
+
+          fetch("/search/query", {
+            method:"POST",
+            headers: {
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({"prompt": searchInput, "type":searchType})
+          })
+          .then(response => response.text())
+          .then((obj)=>{
+            // handle errors here
+            console.log(obj);
+
+            //clear temp search
+            document.getElementById("tempSearch").innerHTML = "";
+
+            //append div to search
+            addSearch(obj)
+          })
+
+        }
+
+      });
+    </script>
+    <script src="{{ url_for('static',filename='assets/js/plugins.js') }}"></script>
+    <script src="{{ url_for('static',filename='assets/js/main.js') }}"></script>
+</body>
 </html>
+  

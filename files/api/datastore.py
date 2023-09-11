@@ -1,4 +1,5 @@
 from google.cloud import datastore
+from google.cloud.datastore.query import PropertyFilter, And
 import logging
 import json
 from flask import session
@@ -20,9 +21,23 @@ def fetch_config_value_by_filter(key: str):
 
 client = datastore.Client(project="legalator")
 
-def create_datastore_entry(key_list:list, value_map):
+def get_user_chats(user_email, type):
+  query = client.query(kind="Statistics")
+  and_filter = And( 
+    [
+            PropertyFilter("User", "=", user_email),
+            PropertyFilter("Type", "=", type),
+        ]
+    )
+  query.add_filter(filter=and_filter)
+  query.order = ["-Time Added"]
+  results = list(query.fetch())
+  return results
+
+
+def create_datastore_entry(key_list:list, value_map, exclude_from_indexes=()):
   complete_key = client.key(*key_list)
-  entity = datastore.Entity(key=complete_key)
+  entity = datastore.Entity(key=complete_key, exclude_from_indexes=exclude_from_indexes)
   entity.update(
     value_map
   )

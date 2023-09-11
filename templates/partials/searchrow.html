@@ -1,0 +1,22 @@
+{% for search_obj in search_res %}
+<div class="row promptRow" style="width:100%; ">
+  <div class="col-20-1">
+    <i class="fa-solid fa-user" style="margin-left: 1vh;"></i>
+  </div>
+  <div class="col" style="padding-left: 0;">
+    <p style="margin-bottom: 0; white-space: pre-line;">{{search_obj.prompt}}</p>
+  </div>
+</div>
+<div class="row promptRow" style="width:100%; margin-bottom:2vh; ">
+<div class="col-20-1">
+  <img src="{{ url_for('static',filename='assets/images/favicon.svg') }}" alt="" width="20"style="margin-left: 1vh; margin-top:0.5vh;" />
+</div>
+<div class="col" style="padding-left: 0;">
+  <p style="margin-bottom: 0; white-space: pre-line;">{{search_obj.response}}</p>
+  <h5 style="margin-top:2vh;">Relevant Documents:</h3>
+  {% for title in search_obj.titles %}
+    <p id="title">{{title}}</p>
+  {% endfor %}
+</div>
+</div>
+{% endfor %}

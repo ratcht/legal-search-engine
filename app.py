@@ -1,10 +1,10 @@
 from flask import Flask, redirect, url_for, render_template, request, session, after_this_request, send_file, flash
 from werkzeug.utils import secure_filename
 from files.routes import admin 
-from files.api.datastore import get_config_value, update_config_value, session_get_config_value, get_datastore_entry, check_datastore_entry
+from files.api.datastore import get_config_value, update_config_value, session_get_config_value, get_datastore_entry, check_datastore_entry, get_user_chats
 from files.api.openai import authenticate
 from files.api.pinecone import get_pinecone_index
-from files.search import search
+from files.search import search, load_history
 from files.obj.userobj import UserObj, parse_userobj, verify_token
 from files.obj.searchobj import SearchObj, parse_search_history
 from files.obj.searchtype import SearchType
@@ -32,7 +32,7 @@ authenticate(OPENAI_API_KEY, OPENAI_ORGANIZATION)
 
 PINECONE_API_KEY = get_config_value("PINECONE_API_KEY")
 PINECONE_ENVIRONMENT = get_config_value("PINECONE_ENVIRONMENT")
-PINECONE_INDEX_VALUE = get_config_value("PINECONE_INDEX")
+PINECONE_INDEX_VALUE = get_config_value("PINECONE_INDEX_VALUE")
 
 
 EMBEDDING_MODEL = get_config_value("EMBEDDING_MODEL")
@@ -91,8 +91,9 @@ def chat():
 
   # Get chat input
   logging.info("In /search/query")
-  search_input = request.form["searchInput"]
-  search_type = SearchType(request.form["searchType"])
+  data = request.get_json()
+  search_input = data["prompt"]
+  search_type = SearchType(data["type"])
   logging.info(f"Search Type: {search_type.value}")
 
   # Send chat to GPT
@@ -105,7 +106,7 @@ def chat():
 
   logging.info(f"Titles Found: {search_titles}")
 
-  search_obj = SearchObj(search_input, search_response, search_titles)
+  search_obj = SearchObj(search_input, search_response, search_titles, type=search_type)
   status = StatusObj(200)
 
   # set result in session
@@ -117,13 +118,12 @@ def chat():
     print(session["track_statistics"])
 
     add_result(user.email, search_obj)
+  
+  return render_template("partials/searchrow.html", search_res = [search_obj])
 
-  return redirect(url_for("search_page", search_type=search_type.value))
 
-
-@app.route("/search/history", methods=["GET"])
-def search_history():
-    # Check if user is signed in
+@app.route("/search/list", methods=["GET"])
+def chat_list():
   try:
     token = session.get("token")
     res = verify_token(token)
@@ -137,8 +137,26 @@ def search_history():
   if not user.can_search():
     return redirect(url_for("index"))
 
-  logging.info(f'Search: {session["search"]}')
-  return render_template("partials/search-partial.html", loaded_search_history=parse_search_history(json.loads(session["search"])))
+  if request.args.get("cut") == None:
+    cut = 5
+  else:
+    cut = int(request.args.get("cut"))
+
+
+  if request.args.get("start") == None:
+    start = 0
+  else:
+    start = int(request.args.get("start"))
+  
+  type = request.args.get("type")
+
+
+  res = get_user_chats(user.email, type)
+
+  print(len(res))
+
+
+  return render_template("partials/searchrow.html", search_res=load_history(res, cut=cut, start=start))
 
 
 @app.route("/search/clear", methods=["GET"])
@@ -202,6 +220,27 @@ def search_page():
 # User Routes
 #====================================================
 
+
+@app.route("/user/profile", methods=["GET"])
+def profile():  
+  logging.info("In Profile Page")
+
+  # Check if user is signed in
+  try:
+    token = session.get("token")
+    res = verify_token(token)
+  except ValueError as ve:
+    logging.error(ve)
+    return redirect(url_for("login_page"))
+  
+  user = parse_userobj(session["user"])
+
+  if not user.can_search():
+    return redirect(url_for("index"))
+
+
+  return render_template("profile.html", user = user)
+
 @app.route("/user/signout", methods=["GET"])
 def sign_out():  
   logging.info("Signing out...")
@@ -219,7 +258,7 @@ def login_page():
     token = session.get("token")
     res = verify_token(token)
     logging.info("Already Signed In...")
-    return redirect(url_for("/search/page"))
+    return redirect(url_for("search_page"))
   except ValueError as ve:
     pass
 
@@ -235,7 +274,7 @@ def login_post():
     token = session.get("token")
     res = verify_token(token)
     logging.info("Already Signed In...")
-    return redirect(url_for("/search/page"))
+    return redirect(url_for("search_page"))
   except ValueError as ve:
     pass
 
@@ -265,7 +304,7 @@ def signup_page():
     token = session.get("token")
     res = verify_token(token)
     logging.info("Already Signed In...")
-    return redirect(url_for("/search/page"))
+    return redirect(url_for("search_page"))
   except ValueError as ve:
     pass
 
@@ -280,7 +319,7 @@ def signup_post():
     token = session.get("token")
     res = verify_token(token)
     logging.info("Already Signed In...")
-    return redirect(url_for("/search/page"))
+    return redirect(url_for("search_page"))
   except ValueError as ve:
     pass
 
@@ -299,6 +338,8 @@ def signup_post():
 #====================================================
 # Home Routes
 #====================================================
+
+
 
 @app.route("/", methods=["GET"])
 @app.route("/home", methods=["GET"])
@@ -321,6 +362,38 @@ def index():
 
 
   return render_template("index.html", signed_in = signed_in, user = user)
+
+
+@app.route("/searchnew", methods=["GET"])
+def search_page_new():  
+  logging.info("In Search Page")
+
+  # Check if user is signed in
+  try:
+    token = session.get("token")
+    res = verify_token(token)
+  except ValueError as ve:
+    logging.error(ve)
+    return redirect(url_for("login_page"))
+  
+  user = parse_userobj(session["user"])
+
+  if not user.can_search():
+    return redirect(url_for("index"))
+
+  
+  search_type_arg = request.args.get("search_type")
+  search_type = SearchType(search_type_arg) if search_type_arg else SearchType.CASE_LAW
+
+
+  # if previous message and query already exists
+  if "search" in session:
+    search_obj = session["search"]
+    logging.info(search_obj)
+    return render_template("search-new.html", search_obj = search_obj, search_type=search_type, user = user)
+
+
+  return render_template("search-new.html", search_type=search_type, user = user)
 
 
 if __name__ == "__main__":

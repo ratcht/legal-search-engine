@@ -33,14 +33,17 @@ def create_df(chunks: list, title: str, EMBEDDING_MODEL: str, batch_size = 1000)
 
 def create_query(query: str, type: SearchType, pinecone_index: pinecone.Index, EMBEDDING_MODEL: str, GPT_MODEL: str, GPT_PROMPT: str, token_budget: int):
   """Return a message for GPT, with relevant source texts pulled from a dataframe."""
-  metadata, ids, relatedness = rank_strings_pinecone(query, pinecone_index, EMBEDDING_MODEL, top_n=15)
+  metadata, ids, relatedness = rank_strings_pinecone(query, pinecone_index, EMBEDDING_MODEL, top_n=15, type=type)
   logging.info("Finished ranking strings")
+  logging.info(metadata)
+  logging.info(ids)
 
   chunks = []
 
 
-  metadata_type_filtered = [metadata_group for metadata_group in metadata if metadata_group["type"] == type.value]
   logging.info("Type filtered")
+  logging.info("Metadata Type: ")
+  logging.info(metadata)
 
   introduction = GPT_PROMPT
   question = f"\n\nQuestion: {query}"
@@ -48,7 +51,7 @@ def create_query(query: str, type: SearchType, pinecone_index: pinecone.Index, E
   excerpts = []
 
   titles = []
-  for metadata_group, id in zip(metadata_type_filtered,ids):
+  for metadata_group, id in zip(metadata,ids):
     title = metadata_group["title"]
     titles.append(title)
 
@@ -89,3 +92,15 @@ def update_search_history(search_obj: SearchObj):
   )
   search_history.append(search_obj)
   session["search"] = json.dumps(search_history, cls=ComplexEncoder)
+
+
+def load_history(entities: list, cut, start = 0):
+  entities_cut = entities[start:cut]
+  
+  search_history = []
+  
+  for entity in entities_cut:
+    search_obj = SearchObj(entity["Prompt"], entity["Response"], entity["Titles"], SearchType(entity["Type"]))
+    search_history.append(search_obj)
+
+  return search_history
