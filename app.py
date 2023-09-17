@@ -72,6 +72,9 @@ def statistics_disable():
 # Search Routes
 #====================================================
 
+
+
+
 @app.route("/search/query", methods=["POST"])
 def chat():  
 
