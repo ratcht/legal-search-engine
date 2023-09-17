@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Title -->
+    <title>LegalatorAI - The Premier Legal Search Engine</title>
+
+    <!-- SEO meta tags -->
+    <meta name="description" content="Author: Marvel Theme, AI search engine html5 and Bootstrap 5 landing page template" />
+
+    <!-- Favicon -->
+    <link rel="icon" href="{{ url_for('static',filename='assets/images/favicon.svg') }}" type="image/svg+xml" />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static',filename='assets/css/plugins.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static',filename='assets/css/style.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/bootstrap/bootstrap.css') }}">
+    <script type="text/javascript" src="{{url_for('static', filename='js/jquery.js')}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='js/bootstrap/bootstrap.js')}}"></script>
+    <script src="https://kit.fontawesome.com/4d4c02bfa5.js" crossorigin="anonymous"></script>
+
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+
+    <style>
+      .custom-btn-doxplore {
+    text-align: left;
+    color: white;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    background-color: transparent;
+    border: 2px solid #252525;
+    font-family: 'Poppins';
+    font-weight: lighter;
+    cursor: pointer;
+    transition: 0.3s;
+    }
+
+    .custom-btn-doxplore-active {
+    text-align: left;
+    color: white;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    background-color: transparent;
+    border: 2px solid #3beeaf;
+    color:#3beeaf;
+    font-family: 'Poppins';
+    font-weight: lighter;
+    cursor: pointer;
+    transition: 0.3s;
+    }
+
+
+
+    .custom-btn-doxplore:hover {
+        background-color: #3beeaf;
+        color:white;
+        fill:white;
+    }
+
+    .custom-btn-doxplore-active:hover {
+    color: #3beeaf;
+    }
+
+    .custom-btn-casex {
+    text-align: left;
+    color: white;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    background-color: transparent;
+    border: 2px solid #252525;
+    font-family: 'Poppins';
+    font-weight: lighter;
+    cursor: pointer;
+    transition: 0.3s;
+    }
+
+    .custom-btn {
+    text-align: center;
+    color: white;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    background-color: transparent;
+    border: 2px solid #585858;
+    font-family: 'Poppins';
+    font-weight: lighter;
+    cursor: pointer;
+    transition: 0.3s;
+    }
+
+    .custom-btn:hover {
+      background-color: #1aa037;
+        color:white;
+        fill:white;
+    }
+
+    .custom-btn-casex-active {
+    text-align: left;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    background-color: transparent;
+    border: 2px solid #FFBD59;
+    color:#FFBD59;
+    font-family: 'Poppins';
+    font-weight: lighter;
+    cursor: pointer;
+    transition: 0.3s;
+    }
+
+    .custom-btn-casex-active:hover {
+    color: #FFBD59;
+    }
+
+    .custom-btn-casex:hover {
+        background-color: #FFBD59;
+        color:white;
+        fill:white;
+    }
+
+    
+
+    .custom-btn img {
+        float: left;
+    }
+
+
+    #searchInput{
+      background-color: transparent;
+      color: white;
+      border-color: #303030;
+      padding-top: 0.8%;
+      padding-left: 1.5%;
+      padding-right: 2.5%;
+      -webkit-border-radius: 10px 0 0px 10px;
+      -moz-border-radius: 10px 0 0px 10px;
+      border-radius: 10px 0 0px 10px;
+      padding-bottom: 0.8%;
+    }
+
+    #searchInput:focus{
+      border-color: white;
+      box-shadow: none;
+    }
+
+    #searchInput::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+      color: white;
+      opacity: 0.5; /* Firefox */
+    }
+
+    #searchInput:-ms-input-placeholder { /* Internet Explorer 10-11 */
+      color: white;
+      opacity: 0.5; /* Firefox */
+    }
+
+    #searchInput::-ms-input-placeholder { /* Microsoft Edge */
+      color: white;
+      opacity: 0.5; /* Firefox */
+    }
+
+    .promptRow{
+      background-color: #222225;
+      color:white;
+      -webkit-border-radius: 10px;
+      -moz-border-radius: 10px;
+      border-radius: 10px;
+      margin-bottom: 1vh;
+      padding-top: 1.5vh;
+      padding-bottom: 1.5vh;
+      font-size: 1.9vh;
+    }
+
+
+    </style>
+
+</head>
+
+
+<body style="background-color: #0d0d0f;">
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-20-1" style="background-color: #131314;height:100vh; border-right-style: solid;border-color: #292929; text-align: center;">
+          <div class="d-flex align-items-start justify-content-center" style="padding-top:30%; height:50vh;">
+            <a href="/home">
+              <img src="{{ url_for('static',filename='assets/images/favicon.svg') }}" alt="" width="40" />
+            </a>
+          </div>
+          <div class="d-flex align-items-end justify-content-center" style="height:40vh;padding-bottom:50%;">
+            <a href="/profile">
+              <img src="{{ url_for('static',filename='css/images/profile.svg') }}" alt="" width="42" />
+            </a>
+          </div>
+          <div class="d-flex align-items-end justify-content-center" style="height:9vh;padding-bottom:50%;">
+            <a href="/home">
+              <img src="{{ url_for('static',filename='css/images/exit.svg') }}" alt="" width="35" style="margin-right: 0.4vw;" />
+            </a>
+          </div>
+        </div>
+
+        <div class="col">
+          
+          
+        </div>
+      </div>
+
+
+    </div>
+    <script src="{{ url_for('static',filename='assets/js/plugins.js') }}"></script>
+    <script src="{{ url_for('static',filename='assets/js/main.js') }}"></script>
+</body>
+</html>
+  
