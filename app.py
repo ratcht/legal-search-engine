@@ -1,5 +1,6 @@
 from flask import Flask, redirect, url_for, render_template, request, session, after_this_request, send_file, flash
 from werkzeug.utils import secure_filename
+from werkzeug.middleware.proxy_fix import ProxyFix
 from files.routes import admin 
 from files.api.datastore import get_config_value, update_config_value, session_get_config_value, get_datastore_entry, check_datastore_entry, get_user_chats
 from files.api.openai import authenticate
@@ -43,6 +44,10 @@ GPT_USER_PROMPT = get_config_value("GPT_USER_PROMPT")
 pinecone_index = get_pinecone_index(PINECONE_API_KEY, PINECONE_ENVIRONMENT, PINECONE_INDEX_VALUE)
 
 app = Flask(__name__)
+app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_port=1)
+app.config['APPLICATION_ROOT'] = '/'
+app.config['PREFERRED_URL_SCHEME'] = 'https'
+
 app.secret_key = "admin"
 
 
@@ -336,16 +341,69 @@ def signup_post():
 
   create_user(username, email, password)
 
-  return redirect(url_for('login_page'))
+  return redirect(url_for('approve_page'))
+
+
+@app.route("/user/approve", methods=["GET"])
+def approve_page():  
+  logging.info("approve page")
+
+
+  return render_template("approve.html")
 
 #====================================================
 # Home Routes
 #====================================================
 
+@app.route("/1234/pages/contact", methods=["GET"])
+def contact_page():  
+  logging.info("In Contact Page")
+
+  # Check if user is signed in
+  try:
+    token = session.get("token")
+    res = verify_token(token)
+    signed_in = True
+    user = parse_userobj(session.get("user"))
+    logging.info("Already Signed In")
+  except ValueError as ve:
+    logging.error(ve)
+    signed_in = False
+    user = None
+    logging.info("Not Signed In")
+
+  #return redirect(url_for("login_page"))
+  return render_template("contact.html", signed_in = signed_in, user = user)
+
+
+@app.route("/1234/pages/pricing", methods=["GET"])
+def pricing_page():  
+  logging.info("In Pricing Page")
+
+    # Check if user is signed in
+  try:
+    token = session.get("token")
+    res = verify_token(token)
+    signed_in = True
+    user = parse_userobj(session.get("user"))
+    logging.info("Already Signed In")
+  except ValueError as ve:
+    logging.error(ve)
+    signed_in = False
+    user = None
+    logging.info("Not Signed In")
+
+  #return redirect(url_for("login_page"))
+  return render_template("pricing.html", signed_in = signed_in, user = user)
 
 
 @app.route("/", methods=["GET"])
 @app.route("/home", methods=["GET"])
+def temp_index():
+  return redirect(url_for('login_page'))
+
+@app.route("/1234", methods=["GET"])
+@app.route("/1234/home", methods=["GET"])
 def index():  
   logging.info("In Index Page")
 
@@ -363,46 +421,21 @@ def index():
     logging.info("Not Signed In")
   
 
-
+  #return redirect(url_for("login_page"))
   return render_template("index.html", signed_in = signed_in, user = user)
 
 
-@app.route("/searchnew", methods=["GET"])
-def search_page_new():  
-  logging.info("In Search Page")
-
-  # Check if user is signed in
-  try:
-    token = session.get("token")
-    res = verify_token(token)
-  except ValueError as ve:
-    logging.error(ve)
-    return redirect(url_for("login_page"))
-  
-  user = parse_userobj(session["user"])
-
-  if not user.can_search():
-    return redirect(url_for("index"))
-
-  
-  search_type_arg = request.args.get("search_type")
-  search_type = SearchType(search_type_arg) if search_type_arg else SearchType.CASE_LAW
-
-
-  # if previous message and query already exists
-  if "search" in session:
-    search_obj = session["search"]
-    logging.info(search_obj)
-    return render_template("search-new.html", search_obj = search_obj, search_type=search_type, user = user)
-
-
-  return render_template("search-new.html", search_type=search_type, user = user)
 
 
 if __name__ == "__main__":
   # webbrowser.open('http://127.0.0.1:8000')  # Go to example.com
   # set upload folder
   app.config["SESSION_TYPE"] = 'filesystem'
+  app.config['APPLICATION_ROOT'] = '/'
+  app.config['PREFERRED_URL_SCHEME'] = 'https'
+
+
+
 
   # run app
   app.run(port=8000, debug=True)

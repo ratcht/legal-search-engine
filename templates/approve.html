@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Title -->
+  <title>LegalatorAI - The Premier Legal Search Engine</title>
+
+  <!-- SEO meta tags -->
+  <meta name="description" content="Author: Marvel Theme, AI search engine html5 and Bootstrap 5 landing page template" />
+
+  <!-- Favicon -->
+  <link rel="icon" href="{{ url_for('static',filename='assets/images/favicon.svg') }}" type="image/svg+xml" />
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="{{ url_for('static',filename='assets/css/plugins.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static',filename='assets/css/style.css') }}" />
+
+</head>
+
+<body>
+    <div class="wrapper d-flex flex-column justify-between">
+        <main class="flex-grow-1">
+            <section class="account-section login-page py-6 h-full">
+                <div class="container-fluid h-full">
+                    <div class="row h-full">
+                        <div class="col-lg-6 d-none d-lg-block" data-aos="fade-up-sm" data-aos-delay="50">
+                            <div class="bg-dark-blue-4 border rounded-4 h-full p-6 p-md-20 text-center d-flex flex-column justify-center">
+                                <h2 class="text-white mb-12">
+                                    Unlock the Power of the<br class="d-none d-xl-block" />
+                                    <span class="text-primary-dark">Legalator.AI</span> Search Engine
+                                </h2>
+                                <img src="{{ url_for('static',filename='assets/images/screens/screen-5.png') }}" alt="" class="img-fluid w-full" />
+                            </div>
+                        </div>
+                        <div class="col-lg-6" data-aos="fade-up-sm" data-aos-delay="100">
+                            <div class="close-btn">
+                                <a href="/home" class="icon bg-gradient-3 text-white w-12 h-12 rounded p-3 border border-white border-opacity-10 d-flex align-center justify-center ms-auto">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                        <g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                            <path d="M18 6 6 18M6 6l12 12" />
+                                        </g>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class="account-wrapper h-full d-flex flex-column justify-center">
+                                <div class="text-center">
+                                    <a href="" >
+                                        <img src="{{ url_for('static',filename='images/legalator.png') }}" alt="" class="img-fluid" width="165" />
+                                    </a>
+                                    <h3 style="margin-top:3%; margin-bottom: 3%;">Please contact management to get your account approved.</h3>
+                                    <a href="/user/login/page">Continue to Sign In</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+
+    <!-- JS -->
+    <script type="text/javascript">
+        function showPassword() {
+          var x = document.getElementById("passwordInput");
+          if (x.type === "password") {
+            x.type = "text";
+          } else {
+            x.type = "password";
+          }
+        }
+      </script>
+    <script src="{{ url_for('static',filename='assets/js/plugins.js') }}"></script>
+    <script src="{{ url_for('static',filename='assets/js/main.js') }}"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Title -->
+  <title>LegalatorAI - The Premier Legal Search Engine</title>
+
+  <!-- SEO meta tags -->
+  <meta name="description" content="Author: Marvel Theme, AI search engine html5 and Bootstrap 5 landing page template" />
+
+  <!-- Favicon -->
+  <link rel="icon" href="{{ url_for('static',filename='assets/images/favicon.svg') }}" type="image/svg+xml" />
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="{{ url_for('static',filename='assets/css/plugins.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static',filename='assets/css/style.css') }}" />
+
+</head>
+
+<body>
+    <div class="wrapper d-flex flex-column justify-between">
+        <!-- Navbar -->
+       <!-- Navbar -->
+       <nav class="navbar navbar-expand-lg fixed-top bg-dark" data-bs-theme="dark">
+        <div class="container">
+            <!-- Logo -->
+            <a class="navbar-brand" href="/home">
+              <img src="{{ url_for('static',filename='images/legalator.png') }}" alt="" width="165" />
+            </a>
+
+            <!-- Navbar toggler button -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                <div class="navbar-toggler-icon">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </button>
+
+            <!-- Navbar content -->
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <div class="navbar-content-inner ms-lg-auto d-flex flex-column flex-lg-row align-lg-center gap-4 gap-lg-10 p-2 p-lg-0">
+                    <ul class="navbar-nav gap-lg-2 gap-xl-5">
+                        <li class="nav-item">
+                            <a class="nav-link " href="/home">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " href="/#about">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " href="/pages/pricing">Pricing</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " href="/pages/contact">Contact</a>
+                        </li>
+                        {% if not signed_in %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="/user/login/page">Login</a>
+                        </li>
+                        {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="/user/signout">Sign Out</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" style="margin-top: 3%;"><strong>{{user.username}}</strong></a>
+                        </li>
+
+                        {% endif %}
+
+                    </ul>
+                    <div class="">
+                        <a href="/user/login/page" class="btn btn-outline-primary-dark">Get started</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </nav>
+
+
+        <main class="flex-grow-1">
+            <!-- Page header -->
+            <section class="py-10 py-lg-15 bg-striped" data-aos="fade-up-sm" data-aos-delay="50">
+                <div class="container">
+                    <div class="text-center">
+                        <h3 class="text-white mb-2">Pricing & Plan</h3>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb justify-center fs-sm">
+                                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Pricing</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- Pricing -->
+            <section class="pt-20 pb-10 pt-lg-30 pb-lg-15">
+                <div class="container">
+                    <div class="row justify-center mb-14">
+                        <div class="col-lg-10">
+                            <div class="text-center">
+                                <p class="text-primary-dark" data-aos="fade-up-sm" data-aos-delay="50">
+                                    Pricing Plan
+                                </p>
+                                <h1 class="text-white mb-5" data-aos="fade-up-sm" data-aos-delay="100">
+                                    Ready to Get Started? <br />
+						Don't Worry, We'll Keep You Under Budget
+                                </h1>
+                                <p class="mb-0" data-aos="fade-up-sm" data-aos-delay="150">
+                                    Get started with a 5-day trial, <span class="text-primary-dark">25% off</span> for Yearly Plan,
+                                    Cancel anytime.
+                                </p>
+                            </div>
+                            <div class="text-center mt-12" data-aos="fade-up-sm" data-aos-delay="200">
+                                <div class="switch-wrapper border d-inline-flex rounded p-2 bg-dark-blue-4">
+                                    <input id="monthly" type="radio" name="switch" checked />
+                                    <input id="yearly" type="radio" name="switch" />
+                                    <label for="monthly">Monthly</label>
+                                    <label for="yearly">Yearly</label>
+                                    <span class="highlighter"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row g-6 pricing-table">
+                        <div class="col-md-6 col-lg-4" data-aos="fade-up-sm" data-aos-delay="50">
+                            <div class="pricing-card p-6 px-lg-10 py-lg-8 rounded-4 h-full bg-">
+                                <h3 class="text-primary-dark fw-medium mb-0">Free</h3>
+                                <h1 class="display-2 fw-semibold text-white mb-0 mt-4 price monthly">$00</h1>
+                                <h1 class="display-2 fw-semibold text-white mb-0 mt-4 price yearly d-none">$00</h1>
+                                <p class="text-white lead fw-normal mt-4 mb-0">
+                                    A 10X faster way to writing your professional copy
+                                </p>
+                                <a href="pricing-plan.html" class="pricing-btn btn btn-lg w-full fs-4 lh-sm mt-9 btn-dark-blue-3">Start for Free</a>
+                                <ul class="pricing-list d-flex flex-column gap-5 fs-lg mt-9 mb-0">
+                                    <li>Single seats</li>
+                                    <li>10,000 words per month</li>
+                                    <li>30+ AI writing tools</li>
+                                    <li>60+ Copywriting tools</li>
+                                    <li>10+ languages</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-4" data-aos="fade-up-sm" data-aos-delay="100">
+                            <div class="pricing-card p-6 px-lg-10 py-lg-8 rounded-4 h-full bg-">
+                                <h3 class="text-primary-dark fw-medium mb-0">Starter</h3>
+                                <h1 class="display-2 fw-semibold text-white mb-0 mt-4 price monthly">$29</h1>
+                                <h1 class="display-2 fw-semibold text-white mb-0 mt-4 price yearly d-none">$299</h1>
+                                <p class="text-white lead fw-normal mt-4 mb-0">
+                                    A 10X faster way to writing your professional copy
+                                </p>
+                                <a href="pricing-plan.html" class="pricing-btn btn btn-lg w-full fs-4 lh-sm mt-9 btn-dark-blue-3">Choose Plan</a>
+                                <ul class="pricing-list d-flex flex-column gap-5 fs-lg mt-9 mb-0">
+                                    <li>5 User seats</li>
+                                    <li><strong class="text-white fw-medium">50,000</strong> words per month</li>
+                                    <li><strong class="text-white fw-medium">70+</strong> AI writing tools</li>
+                                    <li><strong class="text-white fw-medium">100+</strong> Copywriting tools</li>
+                                    <li>Blog post wizard tool</li>
+                                    <li>25+ languages</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-4" data-aos="fade-up-sm" data-aos-delay="150">
+                            <div class="pricing-card p-6 px-lg-10 py-lg-8 rounded-4 h-full bg-">
+                                <span class="badge text-bg-primary px-4 py-2 rounded-end-0">Most Popular</span>
+                                <h3 class="text-primary-dark fw-medium mb-0">Enterprise</h3>
+                                <h1 class="display-2 fw-semibold text-white mb-0 mt-4 price monthly">$119</h1>
+                                <h1 class="display-2 fw-semibold text-white mb-0 mt-4 price yearly d-none">$1299</h1>
+                                <p class="text-white lead fw-normal mt-4 mb-0">
+                                    A 10X faster way to writing your professional copy
+                                </p>
+                                <a href="pricing-plan.html" class="pricing-btn btn btn-lg w-full fs-4 lh-sm mt-9 btn-dark-blue-3">Choose Plan</a>
+                                <ul class="pricing-list d-flex flex-column gap-5 fs-lg mt-9 mb-0">
+                                    <li>Unlimited seats</li>
+                                    <li><strong class="text-white fw-medium">100,000</strong> words per month</li>
+                                    <li><strong class="text-white fw-medium">100+</strong> AI writing tools</li>
+                                    <li><strong class="text-white fw-medium">200+</strong> Copywriting tools</li>
+                                    <li>Blog post wizard tool</li>
+                                    <li>25+ languages</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+            
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer bg-striped pt-10 pt-lg-15">
+          <div class="container">
+              <div class="row g-10">
+                  <div class="col-lg-9 col-xl-8 order-lg-2">
+                      <div class="row g-6">
+                          <div class="col-md-4 col-lg-4">
+                              <div class="footer-widget text-center text-md-start">
+                                  <h6 class="text-white mb-2">Legalator.AI</h6>
+                                  <ul class="link-list list-unstyled mb-0">
+                                      <li>
+                                          <a href="/#about">About</a>
+                                      </li>
+                                      <li>
+                                        <a href="/pages/pricing">Pricing</a>
+                                      </li>
+                                      <li>
+                                          <a href="/user/login/page">Sign in</a>
+                                      </li>
+                                      <li>
+                                          <a href="/user/signup/page">Register</a>
+                                      </li>
+                                      <li>
+                                          <a href="/pages/contact">Contact</a>
+                                      </li>
+                                  </ul>
+                              </div>
+                          </div>
+
+                          <div class="col-md-4 col-lg-4">
+                              <div class="footer-widget text-center text-md-start">
+                                  <h6 class="text-white mb-4">News & Update</h6>
+                                  <form action="#">
+                                      <div class="input-group">
+                                          <input type="email" class="form-control" placeholder="Enter your email" />
+                                          <button class="btn btn-primary-dark px-4" type="button">
+                                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" width="24" height="24">
+                                                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m4.031 8.917 15.477-4.334a.5.5 0 0 1 .616.617l-4.333 15.476a.5.5 0 0 1-.94.067l-3.248-7.382a.5.5 0 0 0-.256-.257L3.965 9.856a.5.5 0 0 1 .066-.94v0Z" />
+                                              </svg>
+                                          </button>
+                                      </div>
+                                  </form>
+                                  <ul class="list-unstyled d-flex flex-wrap align-center justify-center justify-md-start gap-3 social-list mb-0 mt-5">
+                                      <li>
+                                          <a href="#">
+                                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24">
+                                                  <path stroke="none" d="M0 0h24v24H0z" />
+                                                  <path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21" />
+                                              </svg>
+                                          </a>
+                                      </li>
+                                      <li>
+                                          <a href="#">
+                                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" class="icon icon-tabler icon-tabler-brand-dribbble" viewBox="0 0 24 24">
+                                                  <path stroke="none" d="M0 0h24v24H0z" />
+                                                  <circle cx="12" cy="12" r="9" />
+                                                  <path d="M9 3.6c5 6 7 10.5 7.5 16.2" />
+                                                  <path d="M6.4 19c3.5-3.5 6-6.5 14.5-6.4M3.1 10.75c5 0 9.814-.38 15.314-5" />
+                                              </svg>
+                                          </a>
+                                      </li>
+                                      <li>
+                                          <a href="#">
+                                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                                                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.75 6v6A3.75 3.75 0 0 1 12 15.75H6A3.75 3.75 0 0 1 2.25 12V6A3.75 3.75 0 0 1 6 2.25h6A3.75 3.75 0 0 1 15.75 6Z" />
+                                                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8.25 15.75V9c0-1.641.375-3 3-3m-4.5 3.75h4.5" />
+                                              </svg>
+                                          </a>
+                                      </li>
+                                      <li>
+                                          <a href="#">
+                                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                                                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.25 2.258s-1.514.894-2.355 1.147A3.36 3.36 0 0 0 9 5.655v.75a7.995 7.995 0 0 1-6.75-3.397s-3 6.75 3.75 9.75a8.73 8.73 0 0 1-5.25 1.5c6.75 3.75 15 0 15-8.625a3.34 3.34 0 0 0-.06-.623c.765-.754 1.56-2.752 1.56-2.752Z" />
+                                              </svg>
+                                          </a>
+                                      </li>
+                                      <li>
+                                          <a href="#">
+                                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                                                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6v0Z" />
+                                                  <path stroke="currentColor" stroke-width="1.5" d="M2.25 12V6A3.75 3.75 0 0 1 6 2.25h6A3.75 3.75 0 0 1 15.75 6v6A3.75 3.75 0 0 1 12 15.75H6A3.75 3.75 0 0 1 2.25 12Z" />
+                                              </svg>
+                                          </a>
+                                      </li>
+                                  </ul>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-lg-3 order-lg-1 me-auto">
+                      <div class="footer-widget text-center text-lg-start">
+                          <a href="">
+                              <img src="{{ url_for('static',filename='images/legalator.png') }}" alt="" class="img-fluid" width="135" />
+                          </a>
+                          <p class="fs-sm mb-0 mt-4">
+                              The Pioneers in AI Legal Research
+                          </p>
+                      </div>
+                  </div>
+              </div>
+
+              <div class="text-center py-6 mt-8">
+                  <p class="fs-sm mb-0">Copyright <span class="text-primary-dark">Legalator.AI</span></p>
+              </div>
+          </div>
+      </footer>
+
+    </div>
+
+
+    <!-- JS -->
+    <script src="{{ url_for('static',filename='assets/js/plugins.js') }}"></script>
+    <script src="{{ url_for('static',filename='assets/js/main.js') }}"></script>
+
+</body>
+
+</html>
