@@ -8,6 +8,7 @@ async def worker(id, queue: asyncio.Queue, GPT_MODEL: str) -> Tuple[int, str]:
   prompt = await queue.get()
   response = await aquery(prompt, GPT_MODEL)
   queue.task_done()
+   
   return id, response
 
 
