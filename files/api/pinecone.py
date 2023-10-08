@@ -74,6 +74,10 @@ def upload_to_pinecone(df: pd.DataFrame, pinecone_index: pinecone.Index, batch_s
     pinecone_index.upsert(vectors=list(to_upsert))
 
 
+def get_statistics(pinecone_index: pinecone.Index):
+  return pinecone_index.describe_index_stats()
+
+
 def delete_by_title_pinecone(pinecone_index: pinecone.Index, document_title: str):
   pinecone_index.delete(delete_all=False, filter={"secured_title": document_title})
 

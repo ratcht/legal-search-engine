@@ -1,5 +1,6 @@
 import json
 from files.obj.searchtype import SearchType
+from datetime import datetime
 
 class SearchObj:
   def __init__(self, prompt, response, titles, type: SearchType, excerpts=""):
@@ -20,3 +21,13 @@ def parse_search_history(json_obj):
     search_history.append(search_obj)
   return search_history
 
+
+class StatObj:
+  def __init__(self, prompt, response, titles, type: SearchType, user, time, id):
+    self.prompt = prompt
+    self.type = type
+    self.response = response
+    self.titles = titles
+    self.user = user
+    self.time = datetime.fromtimestamp(time)
+    self.id = id

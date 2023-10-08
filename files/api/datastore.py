@@ -34,6 +34,47 @@ def get_user_chats(user_email, type):
   results = list(query.fetch())
   return results
 
+def get_user_chats_no_type(user_email):
+  query = client.query(kind="Statistics")
+  and_filter = And( 
+    [
+            PropertyFilter("User", "=", user_email),
+        ]
+    )
+  query.add_filter(filter=and_filter)
+  query.order = ["-Time Added"]
+  results = list(query.fetch())
+  return results
+
+
+def get_count(key_type):
+  query = client.query(kind="__Stat_Kind__")
+  query
+  result = list(query.fetch())
+  for stat in result:
+    if stat['kind_name'] == key_type: return stat['count']
+  
+  # should not be here
+  raise Exception("Kind not found")
+
+def fetch_recent_statistics(limit=5):
+  query = client.query(kind="Statistics")
+  query.order = ["-Time Added"]
+  results = list(query.fetch(limit=limit))
+
+  return results
+
+def get_users(limit=None):
+  query = client.query(kind="User")
+  results = list(query.fetch(limit=limit))
+
+  return results
+  
+def get_datastore_entry_id(key_type: str, key:int):
+  keys = client.key(key_type, int(key))
+  entity = client.get(key=keys)
+  if (entity == None): raise KeyError(f"Datastore: Entity not found in database. KeyType: {key_type}, Key: {key}" )
+  return entity
 
 def create_datastore_entry(key_list:list, value_map, exclude_from_indexes=()):
   complete_key = client.key(*key_list)

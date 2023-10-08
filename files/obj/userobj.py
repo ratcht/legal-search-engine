@@ -52,3 +52,10 @@ def verify_token(token: str):
   except (jwt.exceptions.InvalidSignatureError, jwt.exceptions.ExpiredSignatureError, jwt.exceptions.DecodeError) as jwe:
     logging.error(jwe)
     raise ValueError("Invalid Token")
+
+class UserStatObj:
+  def __init__(self, username:str, email:str, paid:bool):
+    self.username = username
+    self.email = email
+    self.paid = paid
+

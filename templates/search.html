@@ -263,6 +263,9 @@
 
     </div>
     <script>
+        function copyToClipboard(text) {
+          navigator.clipboard.writeText(text)
+        }
         function loadSearch(type, cut=5, start=0) {
           console.log("In!")
           fetch("/search/list?recent="+cut.toString()+"&type="+type, {

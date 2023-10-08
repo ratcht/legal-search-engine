@@ -2,12 +2,12 @@ from flask import Flask, redirect, url_for, render_template, request, session, a
 from werkzeug.utils import secure_filename
 from werkzeug.middleware.proxy_fix import ProxyFix
 from files.routes import admin 
-from files.api.datastore import get_config_value, update_config_value, session_get_config_value, get_datastore_entry, check_datastore_entry, get_user_chats
-from files.api.openai import authenticate
-from files.api.pinecone import get_pinecone_index
+from files.api.datastore import *
+from files.api.pinecone import *
+from files.api.openai import *
 from files.search import search, load_history
-from files.obj.userobj import UserObj, parse_userobj, verify_token
-from files.obj.searchobj import SearchObj, parse_search_history
+from files.obj.userobj import *
+from files.obj.searchobj import *
 from files.obj.searchtype import SearchType
 from files.obj.status import StatusObj, parse_status
 from files.userhandler import login, create_user
@@ -351,6 +351,163 @@ def approve_page():
 
   return render_template("approve.html")
 
+#=============
+#Admin
+#=============
+
+
+@app.route("/admin/config/page", methods=["GET"])
+def admin_config_page():  
+  if session.get("admin_authed") != True:
+    return redirect(url_for('admin_login'))
+  PINECONE_API_KEY = get_config_value("PINECONE_API_KEY")
+  GPT_PROMPT = get_config_value("GPT_USER_PROMPT")
+  OPENAI_API_KEY = get_config_value("OPENAI_API_KEY")
+  GPT_MODEL = get_config_value("GPT_MODEL")
+
+  return render_template("config.html", pinecone_api = PINECONE_API_KEY, openai_api = OPENAI_API_KEY, gpt_prompt = GPT_PROMPT, gpt_model = GPT_MODEL)
+
+
+@app.route("/admin/config/update", methods=["POST"])
+def admin_config_update():
+  if session.get("admin_authed") != True:
+    return redirect(url_for('admin_login'))
+  gptPrompt = request.form['gptPrompt']
+  pineconeAPI = request.form['pineconeAPI']
+  gptModel = request.form['gptModel']
+  openaiAPI = request.form['openaiAPI']
+
+  update_config_value("GPT_USER_PROMPT", gptPrompt)
+  update_config_value("GPT_MODEL", gptModel)
+  update_config_value("PINECONE_API_KEY", pineconeAPI)
+  update_config_value("OPENAI_API_KEY", openaiAPI)
+
+  return redirect(url_for('admin_config_page'))
+
+
+
+@app.route("/admin/users/setpaid", methods=["GET"])
+def admin_set_paid():  
+  logging.info("Users List Page")
+  if session.get("admin_authed") != True:
+    return redirect(url_for('admin_login'))
+  user_email = request.args.get("email")
+
+  update_datastore_entry("User", user_email, {"Paid": True})
+
+  return redirect(url_for("admin_users_list"))
+
+@app.route("/admin/users", methods=["GET"])
+def admin_users_page():  
+  logging.info("Users Page")
+  if session.get("admin_authed") != True:
+    return redirect(url_for('admin_login'))
+  
+  email = request.args.get("email")
+
+  user = get_datastore_entry("User", email)
+  user_obj = UserStatObj(username = user["Username"], email = user["Email"], paid = user["Paid"]) 
+  
+
+  entities = get_user_chats_no_type(email)
+  search_objs = [StatObj(prompt=entity["Prompt"], response=entity["Response"], titles=entity["Titles"], time=entity["Time Added"], type=entity["Type"], user=entity["User"], id=entity.id) for entity in entities]
+
+
+
+
+  return render_template("userdetailed.html", user_obj = user_obj, search_objs = search_objs)
+
+@app.route("/admin/users/list", methods=["GET"])
+def admin_users_list():  
+  logging.info("Users List Page")
+  if session.get("admin_authed") != True:
+    return redirect(url_for('admin_login'))
+  entities = get_users()
+  user_objs = [UserStatObj(username = entity["Username"], email = entity["Email"], paid = entity["Paid"]) for entity in entities]
+
+
+  return render_template("userlist.html", user_objs = user_objs)
+
+
+@app.route("/admin/statistics/detailed", methods=["GET"])
+def admin_detailed_stat():  
+  logging.info("In Statistics Page")
+  if session.get("admin_authed") != True:
+    return redirect(url_for('admin_login'))
+
+  id = int(request.args.get("id"))
+
+  entity = get_datastore_entry_id("Statistics", id)
+  search_obj = StatObj(prompt=entity["Prompt"], response=entity["Response"], titles=entity["Titles"], time=entity["Time Added"], type=entity["Type"], user=entity["User"], id=entity.id)
+  print(search_obj)
+
+  return render_template("detailed.html", search_obj=search_obj)
+
+
+@app.route("/admin/statistics/view", methods=["GET"])
+def admin_statistics_view():  
+  logging.info("In Statistics Page")
+
+  if session.get("admin_authed") != True:
+    return redirect(url_for('admin_login'))
+  
+  top_searches = fetch_recent_statistics(limit=50)
+  
+  top_searches_parsed = [StatObj(prompt=entity["Prompt"], response=entity["Response"], titles=entity["Titles"], time=entity["Time Added"], type=entity["Type"], user=entity["User"], id=entity.id) for entity in top_searches]
+
+  return render_template("statistics.html", recent_search_objs=top_searches_parsed)
+
+@app.route("/admin", methods=["GET"])
+def admin_index():  
+  logging.info("In Index Page")
+
+  if session.get("admin_authed") != True:
+    return redirect(url_for('admin_login'))
+
+  # search queries
+  top_searches = fetch_recent_statistics(limit=10)
+  top_searches_parsed = [StatObj(prompt=entity["Prompt"], response=entity["Response"], titles=entity["Titles"], time=entity["Time Added"], type=entity["Type"], user=entity["User"], id=entity.id) for entity in top_searches]
+
+
+  # get statistics
+
+  # get count
+  user_count = get_count("User")
+  query_count = get_count("Statistics")
+
+  pinecone_count = get_starting_id(pinecone_index)
+
+  return render_template("admin.html", recent_search_objs=top_searches_parsed, query_count = query_count, user_count=user_count, database_count = pinecone_count)
+
+
+
+@app.route("/admin/login", methods=["GET"])
+def admin_login():  
+  logging.info("In Login Page")
+
+  if session.get("admin_authed") == True:
+    return redirect(url_for('admin_index'))
+  
+  return render_template("password.html")
+
+@app.route("/admin/verify", methods=["POST"])
+def admin_verify():  
+  logging.info("In Login Page")
+
+  if session.get("admin_authed") == True:
+    return redirect(url_for('admin_index'))
+
+  password = get_config_value("ADMIN_PASSWORD")
+
+  entered_password = request.form["password"]
+
+  if password == entered_password:
+    session["admin_authed"] = True
+    return redirect(url_for('admin_index'))
+  
+  
+  return redirect(url_for('admin_login'))
+
 #====================================================
 # Home Routes
 #====================================================
@@ -425,7 +582,7 @@ def index():
   return render_template("index.html", signed_in = signed_in, user = user)
 
 
-@app.before_request
+#@app.before_request
 def before_request():
   if not request.is_secure:
     url = request.url.replace('http://', 'https://', 1)
@@ -438,7 +595,7 @@ if __name__ == "__main__":
   # set upload folder
   app.config["SESSION_TYPE"] = 'filesystem'
   app.config['APPLICATION_ROOT'] = '/'
-  app.config['PREFERRED_URL_SCHEME'] = 'https'
+  #app.config['PREFERRED_URL_SCHEME'] = 'https'
 
 
 

@@ -33,7 +33,7 @@ def create_df(chunks: list, title: str, EMBEDDING_MODEL: str, batch_size = 1000)
 
 def create_query(query: str, type: SearchType, pinecone_index: pinecone.Index, EMBEDDING_MODEL: str, GPT_MODEL: str, GPT_PROMPT: str, token_budget: int):
   """Return a message for GPT, with relevant source texts pulled from a dataframe."""
-  metadata, ids, relatedness = rank_strings_pinecone(query, pinecone_index, EMBEDDING_MODEL, top_n=15, type=type)
+  metadata, ids, relatedness = rank_strings_pinecone(query, pinecone_index, EMBEDDING_MODEL, top_n=10, type=type)
   logging.info("Finished ranking strings")
   logging.info(metadata)
   logging.info(ids)
@@ -103,4 +103,4 @@ def load_history(entities: list, cut, start = 0):
     search_obj = SearchObj(entity["Prompt"], entity["Response"], entity["Titles"], SearchType(entity["Type"]))
     search_history.append(search_obj)
 
-  return search_history
+  return list(reversed(search_history))

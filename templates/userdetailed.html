@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Title -->
+    <title>LegalatorAI Admin Panel</title>
+
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/bootstrap/bootstrap.css') }}">
+    <script type="text/javascript" src="{{url_for('static', filename='js/jquery.js')}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='js/bootstrap/bootstrap.js')}}"></script>
+</head>
+
+
+<body>
+  <div class="container-fluid" style="padding: 1%;">
+    <h2>Legalator.AI Admin Panel</h2>
+    <a href="/admin">Go Back</a>
+
+    <h5 style="margin-top:1%;">Username</h5>
+    <p style="margin-bottom:1.5%;">{{user_obj.user}}</p>
+    <h5>Email</h5>
+    <p style="margin-bottom:1.5%;">{{user_obj.email}}</p>
+    <h5>Paid?</h5>
+    <p style="margin-bottom:1.5%;">{{user_obj.paid}}</p>
+    <a href="/admin/users/setpaid?email={{user_obj.email}}">Set Paid</a>
+
+
+    <h5 style="padding-left: 0; margin-left: 0.5%; margin-top:4%;" >Queries</h4>
+      <table style="margin-left: 0.5%;">
+        <tr>
+          <th style="width:20%;">User</th>
+          <th style="width:50%;">Prompt</th>
+          <th style="width:20%;">Time</th>
+          <th style="width:10%;">Search Type</th>
+        </tr>
+        {% for search_obj in search_objs %}
+        <tr>
+          <td style="padding-top:1%;"><a href="/admin/user?email={{search_obj.user}}">{{search_obj.user}}</a></td>
+          <td style="padding-top:1%;"><a href="/admin/statistics/detailed?id={{search_obj.id}}">{{search_obj.prompt}}</a></td>
+          <td style="padding-top:1%;">{{search_obj.time}}</td>
+          <td style="padding-top:1%;">{{search_obj.type}}</td>
+        </tr>
+        {% endfor %}
+      </table>
+
+  </div>
+</body>
