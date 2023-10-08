@@ -582,7 +582,7 @@ def index():
   return render_template("index.html", signed_in = signed_in, user = user)
 
 
-#@app.before_request
+@app.before_request
 def before_request():
   if not request.is_secure:
     url = request.url.replace('http://', 'https://', 1)
@@ -595,7 +595,7 @@ if __name__ == "__main__":
   # set upload folder
   app.config["SESSION_TYPE"] = 'filesystem'
   app.config['APPLICATION_ROOT'] = '/'
-  #app.config['PREFERRED_URL_SCHEME'] = 'https'
+  app.config['PREFERRED_URL_SCHEME'] = 'https'
 
 
 
