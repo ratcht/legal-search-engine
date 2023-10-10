@@ -6,9 +6,6 @@ import logging
 import sys
 
 
-
-
-
 # init logging
 log = logging.getLogger('authlib')
 log.addHandler(logging.StreamHandler(sys.stdout))
@@ -30,10 +27,10 @@ def login(email: str, entered_password:str) -> str:
 
   entered_password = entered_password.encode('utf-8')
 
-  # Use conditions to compare the authenticating password with the stored one</strong>:
+  # use conditions to compare the authenticating password with the stored one
   if not bcrypt.checkpw(entered_password, stored_password): raise KeyError("Login: Password does not match")
   
-  # Password matches. Get token
+  # password matches
   user = UserObj(user_map['Username'], user_map['Email'], user_map['PasswordEncrypted'], user_map["Paid"])
 
   return user

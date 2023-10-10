@@ -2,24 +2,48 @@
 <html lang="en" data-bs-theme="dark">
 
 <head>
-    <!-- Required meta tags -->
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Required meta tags -->
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- Title -->
-    <title>LegalatorAI Admin Panel</title>
+  <!-- Title -->
+  <title>LegalatorAI - The Premier Legal Search Engine</title>
 
-    <link rel="stylesheet" href="{{ url_for('static',filename='css/bootstrap/bootstrap.css') }}">
-    <script type="text/javascript" src="{{url_for('static', filename='js/jquery.js')}}"></script>
-    <script type="text/javascript" src="{{url_for('static', filename='js/bootstrap/bootstrap.js')}}"></script>
+  <!-- SEO meta tags -->
+  <meta name="description" content="Author: Marvel Theme, AI search engine html5 and Bootstrap 5 landing page template" />
+
+  <!-- Favicon -->
+  <link rel="icon" href="{{ url_for('static',filename='assets/images/favicon.svg') }}" type="image/svg+xml" />
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="{{ url_for('static',filename='assets/css/plugins.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static',filename='assets/css/style.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static',filename='css/bootstrap/bootstrap.css') }}">
+  <script type="text/javascript" src="{{url_for('static', filename='js/jquery.js')}}"></script>
+  <script type="text/javascript" src="{{url_for('static', filename='js/bootstrap/bootstrap.js')}}"></script>
+  <script src="https://kit.fontawesome.com/4d4c02bfa5.js" crossorigin="anonymous"></script>
+
+  <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+
+  <style>
+
+    .grey-container{
+      border-color: #393434;
+      padding:1%;
+      -webkit-border-radius: 10px 10px 10px 10px;
+      -moz-border-radius: 10px 10px 10px 10px;
+      border-radius: 10px 10px 10px 10px;
+    }
+
+  </style>
 </head>
 
 
-<body>
-  <div class="container-fluid" style="padding: 1%;">
+<body style="background-color: #0d0d0f; color:#e6e6e6;">
+  <div class="container-fluid" style="padding: 2%;">
     <h2>Legalator.AI Admin Panel</h2>
-    <a href="/admin">Go Back</a>
+    <a href="/1234/admin">Go Back</a>
 
     <h5 style="margin-top:1%;">User</h5>
     <p style="margin-bottom:1.5%;">{{search_obj.user}}</p>

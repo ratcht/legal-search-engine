@@ -1,6 +1,6 @@
 from flask import Flask, session, redirect, url_for
 from files.api.openai import authenticate
-from files.api.datastore import get_config_value, update_config_value, session_get_config_value
+from files.api.datastore import get_config_value, update_config_value
 import google.cloud.logging
 import logging
 import json

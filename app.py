@@ -142,27 +142,17 @@ def chat_list():
   # Get User
   user = parse_userobj(session["user"])
 
-  if not user.can_search():
-    return redirect(url_for("index"))
+  if not user.can_search(): return redirect(url_for("index"))
 
-  if request.args.get("cut") == None:
-    cut = 5
-  else:
-    cut = int(request.args.get("cut"))
+  if request.args.get("cut") == None: cut = 5
+  else: cut = int(request.args.get("cut"))
 
-
-  if request.args.get("start") == None:
-    start = 0
-  else:
-    start = int(request.args.get("start"))
+  if request.args.get("start") == None: start = 0
+  else: start = int(request.args.get("start"))
   
   type = request.args.get("type")
 
-
   res = get_user_chats(user.email, type)
-
-  print(len(res))
-
 
   return render_template("partials/searchrow.html", search_res=load_history(res, cut=cut, start=start))
 
@@ -171,7 +161,7 @@ def chat_list():
 def clear():  
   logging.info("In Search Page")
 
-  # Check if user is signed in
+  # check if user is signed in
   try:
     token = session.get("token")
     res = verify_token(token)
@@ -179,15 +169,13 @@ def clear():
     logging.error(ve)
     return redirect(url_for("login_page"))
   
-  # Get User
+  # get User
   user = parse_userobj(session["user"])
 
-  if not user.can_search():
-    return redirect(url_for("index"))
+  if not user.can_search(): return redirect(url_for("index"))
 
-  # set session if not set
-  if "search" in session:
-    session.pop("search")
+  # reset session
+  if "search" in session: session.pop("search")
 
   return redirect(url_for("search_page"))
 
@@ -243,9 +231,7 @@ def profile():
   
   user = parse_userobj(session["user"])
 
-  if not user.can_search():
-    return redirect(url_for("index"))
-
+  if not user.can_search(): return redirect(url_for("index"))
 
   return render_template("profile.html", user = user)
 
@@ -356,7 +342,7 @@ def approve_page():
 #=============
 
 
-@app.route("/admin/config/page", methods=["GET"])
+@app.route("/1234/admin/config/page", methods=["GET"])
 def admin_config_page():  
   if session.get("admin_authed") != True:
     return redirect(url_for('admin_login'))
@@ -364,11 +350,13 @@ def admin_config_page():
   GPT_PROMPT = get_config_value("GPT_USER_PROMPT")
   OPENAI_API_KEY = get_config_value("OPENAI_API_KEY")
   GPT_MODEL = get_config_value("GPT_MODEL")
+  ADMIN_PASSWORD = get_config_value("ADMIN_PASSWORD")
 
-  return render_template("config.html", pinecone_api = PINECONE_API_KEY, openai_api = OPENAI_API_KEY, gpt_prompt = GPT_PROMPT, gpt_model = GPT_MODEL)
+
+  return render_template("config.html", pinecone_api = PINECONE_API_KEY, openai_api = OPENAI_API_KEY, gpt_prompt = GPT_PROMPT, gpt_model = GPT_MODEL, admin_password = ADMIN_PASSWORD)
 
 
-@app.route("/admin/config/update", methods=["POST"])
+@app.route("/1234/admin/config/update", methods=["POST"])
 def admin_config_update():
   if session.get("admin_authed") != True:
     return redirect(url_for('admin_login'))
@@ -376,17 +364,19 @@ def admin_config_update():
   pineconeAPI = request.form['pineconeAPI']
   gptModel = request.form['gptModel']
   openaiAPI = request.form['openaiAPI']
+  adminPassword = request.form['adminPassword']
 
   update_config_value("GPT_USER_PROMPT", gptPrompt)
   update_config_value("GPT_MODEL", gptModel)
   update_config_value("PINECONE_API_KEY", pineconeAPI)
   update_config_value("OPENAI_API_KEY", openaiAPI)
+  update_config_value("ADMIN_PASSWORD", adminPassword)
 
   return redirect(url_for('admin_config_page'))
 
 
 
-@app.route("/admin/users/setpaid", methods=["GET"])
+@app.route("/1234/admin/users/setpaid", methods=["GET"])
 def admin_set_paid():  
   logging.info("Users List Page")
   if session.get("admin_authed") != True:
@@ -397,7 +387,7 @@ def admin_set_paid():
 
   return redirect(url_for("admin_users_list"))
 
-@app.route("/admin/users", methods=["GET"])
+@app.route("/1234/admin/users", methods=["GET"])
 def admin_users_page():  
   logging.info("Users Page")
   if session.get("admin_authed") != True:
@@ -417,7 +407,7 @@ def admin_users_page():
 
   return render_template("userdetailed.html", user_obj = user_obj, search_objs = search_objs)
 
-@app.route("/admin/users/list", methods=["GET"])
+@app.route("/1234/admin/users/list", methods=["GET"])
 def admin_users_list():  
   logging.info("Users List Page")
   if session.get("admin_authed") != True:
@@ -429,7 +419,7 @@ def admin_users_list():
   return render_template("userlist.html", user_objs = user_objs)
 
 
-@app.route("/admin/statistics/detailed", methods=["GET"])
+@app.route("/1234/admin/statistics/detailed", methods=["GET"])
 def admin_detailed_stat():  
   logging.info("In Statistics Page")
   if session.get("admin_authed") != True:
@@ -444,7 +434,7 @@ def admin_detailed_stat():
   return render_template("detailed.html", search_obj=search_obj)
 
 
-@app.route("/admin/statistics/view", methods=["GET"])
+@app.route("/1234/admin/statistics/view", methods=["GET"])
 def admin_statistics_view():  
   logging.info("In Statistics Page")
 
@@ -457,7 +447,7 @@ def admin_statistics_view():
 
   return render_template("statistics.html", recent_search_objs=top_searches_parsed)
 
-@app.route("/admin", methods=["GET"])
+@app.route("/1234/admin", methods=["GET"])
 def admin_index():  
   logging.info("In Index Page")
 
@@ -481,7 +471,7 @@ def admin_index():
 
 
 
-@app.route("/admin/login", methods=["GET"])
+@app.route("/1234/admin/login", methods=["GET"])
 def admin_login():  
   logging.info("In Login Page")
 
@@ -490,7 +480,7 @@ def admin_login():
   
   return render_template("password.html")
 
-@app.route("/admin/verify", methods=["POST"])
+@app.route("/1234/admin/verify", methods=["POST"])
 def admin_verify():  
   logging.info("In Login Page")
 
