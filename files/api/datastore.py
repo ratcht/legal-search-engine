@@ -135,14 +135,6 @@ def get_config_value(key:str):
   return get_config_entity_by_key(key)['Value']
 
 
-def session_get_config_value(key: str) -> str:
-  # key is datastore key
-  if key.lower() not in session:
-    session[key.lower()] = json.dumps(get_config_value(key))
-
-  return json.loads(session[key.lower()])
-
-
 def get_config_entity_by_key(key:str):
   keys = client.key("Config", key)
   entity = client.get(key=keys)

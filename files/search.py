@@ -14,6 +14,9 @@ import pinecone
 import logging
 
 # process embeddings
+"""
+Note: this function is used for uploading filed
+"""
 def create_df(chunks: list, title: str, EMBEDDING_MODEL: str, batch_size = 1000) -> pd.DataFrame:
   embeddings = []
   for batch_start in range(0, len(chunks), batch_size):
@@ -34,23 +37,16 @@ def create_df(chunks: list, title: str, EMBEDDING_MODEL: str, batch_size = 1000)
 def create_query(query: str, type: SearchType, pinecone_index: pinecone.Index, EMBEDDING_MODEL: str, GPT_MODEL: str, GPT_PROMPT: str, token_budget: int):
   """Return a message for GPT, with relevant source texts pulled from a dataframe."""
   metadata, ids, relatedness = rank_strings_pinecone(query, pinecone_index, EMBEDDING_MODEL, top_n=10, type=type)
-  logging.info("Finished ranking strings")
-  logging.info(metadata)
-  logging.info(ids)
 
   chunks = []
-
-
-  logging.info("Type filtered")
-  logging.info("Metadata Type: ")
-  logging.info(metadata)
 
   introduction = GPT_PROMPT
   question = f"\n\nQuestion: {query}"
   message = introduction
   excerpts = []
-
   titles = []
+
+  # Formulate prompt
   for metadata_group, id in zip(metadata,ids):
     title = metadata_group["title"]
     titles.append(title)
@@ -58,9 +54,7 @@ def create_query(query: str, type: SearchType, pinecone_index: pinecone.Index, E
     datastore_entry = get_datastore_entry("Chunk", id)
     next_article = f'\n\Document Title: {title}. Excerpt:\n"""\n{datastore_entry["Text"]}\n"""'
 
-
-    if (num_tokens(message + next_article + question, model=GPT_MODEL) > token_budget):
-      break
+    if (num_tokens(message + next_article + question, model=GPT_MODEL) > token_budget): break
     else:
       message += next_article
       excerpts.append(next_article)
@@ -69,7 +63,7 @@ def create_query(query: str, type: SearchType, pinecone_index: pinecone.Index, E
 
 def search(prompt: str, type: SearchType, pinecone_index: pinecone.Index, GPT_MODEL: str, EMBEDDING_MODEL: str, GPT_PROMPT:str):
   try:
-    message, titles, excerpts = create_query(prompt, type, pinecone_index, EMBEDDING_MODEL=EMBEDDING_MODEL, GPT_MODEL=GPT_MODEL, GPT_PROMPT=GPT_PROMPT, token_budget=8000-2500)
+    message, titles, excerpts = create_query(prompt, type, pinecone_index, EMBEDDING_MODEL=EMBEDDING_MODEL, GPT_MODEL=GPT_MODEL, GPT_PROMPT=GPT_PROMPT, token_budget=16000-3000)
   except Exception as e:
     raise Exception(f"From create_query()... {e}")
 
