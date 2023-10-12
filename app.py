@@ -114,7 +114,7 @@ def chat():
 
   logging.info(f"Titles Found: {search_titles}")
 
-  search_obj = SearchObj(search_input, search_response, search_titles, type=search_type)
+  search_obj = SearchObj(search_input, search_response, search_titles[0:3], type=search_type)
   status = StatusObj(200)
 
   # set result in session
