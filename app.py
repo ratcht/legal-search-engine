@@ -24,7 +24,7 @@ import jwt
 
 
 # init logging
-logging.basicConfig(level=logging.NOTSET)
+logging.basicConfig(level=logging.ERROR)
 
 # authenticate openai
 OPENAI_API_KEY = get_config_value("OPENAI_API_KEY")
@@ -104,9 +104,12 @@ def chat():
   search_type = SearchType(data["type"])
   logging.info(f"Search Type: {search_type.value}")
 
+  # get previous user chats
+  prev_chats: list[SearchObj] = load_history(get_user_chats(user.email, search_type.value), cut=3)
+
   # Send chat to GPT
   try:
-    search_response, search_titles, search_excerpts = search(search_input, search_type, pinecone_index, GPT_MODEL, EMBEDDING_MODEL, GPT_USER_PROMPT)
+    search_response, search_titles, search_excerpts = search(search_input, search_type, pinecone_index, prev_chats, GPT_MODEL, EMBEDDING_MODEL, GPT_USER_PROMPT)
   except Exception as e:
     print("Error Thrown")
     session["error"] = json.dumps(StatusObj(500, f"Something happened! Please retry. Exception: {e}"), cls=ComplexEncoder)
@@ -154,7 +157,9 @@ def chat_list():
 
   res = get_user_chats(user.email, type)
 
-  return render_template("partials/searchrow.html", search_res=load_history(res, cut=cut, start=start))
+  chats = load_history(res, cut=cut, start=start)
+
+  return render_template("partials/searchrow.html", search_res=list(reversed(chats)))
 
 
 @app.route("/search/clear", methods=["GET"])
@@ -586,7 +591,6 @@ if __name__ == "__main__":
   app.config["SESSION_TYPE"] = 'filesystem'
   app.config['APPLICATION_ROOT'] = '/'
   app.config['PREFERRED_URL_SCHEME'] = 'https'
-
 
 
 

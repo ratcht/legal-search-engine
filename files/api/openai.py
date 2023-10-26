@@ -23,8 +23,15 @@ def create_embedding(embedding_model: str, content):
 
   return response
 
+def format_completion(dict):
+  formatted = [
+    {"role": "user", "content": dict["prompt"]},
+    {"role": "assistant", "content": dict["response"]},
+  ]
+  return formatted
+
 def previous_example():
-  prompt = """Use the provided excerpts, including the title of the document, to answer the subsequent question. Make sure your answer is concise. Do not give answers that are too long. If a direct answer cannot be found in the information, try to give a broader answer based on all the excerpts provided, referring to knowledge of Pakistani Law.
+  query = """Use the provided excerpts, including the title of the document, to answer the subsequent question. Make sure your answer is concise. Do not give answers that are too long. If a direct answer cannot be found in the information, try to give a broader answer based on all the excerpts provided, referring to knowledge of Pakistani Law.
 Document Title: The Constitution of Pakistan.pdf. Excerpt:
 CONSTITUTION OF PAKISTAN (In the name of Allah, the most Beneficent, the most Merciful.) THE CONSTITUTION OF THE ISLAMIC REPUBLIC OF PAKISTAN [12TH APRIL, 1973] Preamble Whereas sovereignty over the entire Universe belongs to Almighty Allah alone, and the authority to be exercised by the people of Pakistan within the limits prescribed by Him is a sacred trust; And whereas it is the will of the people of Pakistan to establish an order; Wherein the State shall exercise its powers and authority through the chosen representatives of the people; Wherein the principles of democracy, freedom, equality, tolerance and social justice, as enunciated by Islam, shall be fully observed; Wherein the Muslims shall be enabled to order their lives in the individual and collective spheres in accordance with the teachings and requirements of Islam as set out in the Holy Quran and Sunnah; Wherein adequate provision shall be made for the minorities freely to profess and practise their religions and develop their cultures; Wherein the territories now included in or in accession with Pakistan and such other territories as may hereafter be included in or accede to Pakistan shall form a Federation wherein the units will be autonomous with such boundaries and limitations on their powers and authority as may be prescribed; Wherein shall be guaranteed fundamental rights, including equality of status, of opportunity and before law, social, economic and political justice, and freedom of thought, expression, belief, faith, worship and association, subject to law and public morality; Wherein adequate provision shall be made to safeguard the legitimate interests of minorities and backward and depressed classes; Wherein the independence of the judiciary shall be fully secured; 
 
@@ -66,7 +73,7 @@ Good Governance: The preamble expresses the intent to establish good governance,
 In conclusion, the preamble of the Constitution of Pakistan serves as a declaration of the nation's fundamental principles, encapsulating the core values of Islam, democracy, equality, social justice, human rights, and the rule of law. It provides a roadmap for the development of a just, progressive, and harmonious society while upholding the country's Islamic heritage and democratic aspirations.
 """
   formatted = [
-    {"role": "user", "content": prompt},
+    {"role": "user", "content": query},
     {"role": "assistant", "content": response},
   ]
   return formatted
@@ -74,11 +81,15 @@ In conclusion, the preamble of the Constitution of Pakistan serves as a declarat
 def query(message: str, model: str):
   context = previous_example()
 
+
+
+
   messages = [
-    {"role": "system", "content": "You are skilled at reading and interpreting documents. You will throughly process provided documents and answer detailed questions given the information provided."},
+    {"role": "system", "content": "You are skilled at reading and interpreting documents. You will throughly process provided documents and answer detailed questions given the information provided. You also follow past conversations and can answer questions about previous questions."},
     *context,
     {"role": "user", "content": message},
   ]
+  print(messages)
 
   try:
     response = openai.ChatCompletion.create(
