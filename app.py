@@ -46,7 +46,7 @@ pinecone_index = get_pinecone_index(PINECONE_API_KEY, PINECONE_ENVIRONMENT, PINE
 app = Flask(__name__)
 app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_port=1)
 app.config['APPLICATION_ROOT'] = '/'
-app.config['PREFERRED_URL_SCHEME'] = 'https'
+#app.config['PREFERRED_URL_SCHEME'] = 'https'
 
 app.secret_key = "admin"
 
@@ -117,7 +117,7 @@ def chat():
 
   logging.info(f"Titles Found: {search_titles}")
 
-  search_obj = SearchObj(search_input, search_response, search_titles[0:3], type=search_type)
+  search_obj = SearchObj(search_input, search_response, search_titles[0], type=search_type)
   status = StatusObj(200)
 
   # set result in session
@@ -248,7 +248,7 @@ def sign_out():
   return redirect(url_for("index"))
 
 
-@app.route("/user/login/page", methods=["GET"])
+@app.route("/beta/user/login/page", methods=["GET"])
 def login_page():  
   logging.info("In Login Page")
 
@@ -418,6 +418,7 @@ def admin_users_list():
   if session.get("admin_authed") != True:
     return redirect(url_for('admin_login'))
   entities = get_users()
+  print(entities)
   user_objs = [UserStatObj(username = entity["Username"], email = entity["Email"], paid = entity["Paid"]) for entity in entities]
 
 
@@ -507,6 +508,12 @@ def admin_verify():
 # Home Routes
 #====================================================
 
+@app.route("/waitlist/page", methods=["GET"])
+def waitlist_page():
+
+  return render_template("waitlist.html")
+
+
 @app.route("/1234/pages/contact", methods=["GET"])
 def contact_page():  
   logging.info("In Contact Page")
@@ -552,7 +559,7 @@ def pricing_page():
 @app.route("/", methods=["GET"])
 @app.route("/home", methods=["GET"])
 def temp_index():
-  return redirect(url_for('login_page'))
+  return redirect(url_for('waitlist_page'))
 
 @app.route("/1234", methods=["GET"])
 @app.route("/1234/home", methods=["GET"])
@@ -577,7 +584,7 @@ def index():
   return render_template("index.html", signed_in = signed_in, user = user)
 
 
-@app.before_request
+#@app.before_request
 def before_request():
   if not request.is_secure:
     url = request.url.replace('http://', 'https://', 1)
@@ -590,7 +597,7 @@ if __name__ == "__main__":
   # set upload folder
   app.config["SESSION_TYPE"] = 'filesystem'
   app.config['APPLICATION_ROOT'] = '/'
-  app.config['PREFERRED_URL_SCHEME'] = 'https'
+  #app.config['PREFERRED_URL_SCHEME'] = 'https'
 
 
 

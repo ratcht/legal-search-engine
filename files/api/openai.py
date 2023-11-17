@@ -81,9 +81,6 @@ In conclusion, the preamble of the Constitution of Pakistan serves as a declarat
 def query(message: str, model: str):
   context = previous_example()
 
-
-
-
   messages = [
     {"role": "system", "content": "You are skilled at reading and interpreting documents. You will throughly process provided documents and answer detailed questions given the information provided. You also follow past conversations and can answer questions about previous questions."},
     *context,

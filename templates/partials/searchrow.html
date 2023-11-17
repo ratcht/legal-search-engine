@@ -1,7 +1,7 @@
 {% for search_obj in search_res %}
 <div class="row promptRow" style="width:100%; ">
   <div class="col-20-1">
-    <i class="fa-solid fa-user" style="margin-left: 1vh;"></i>
+    <i class="fa-solid fa-user" style="margin-left: 1vh;" onclick="copyClipboard(this)" text="{{search_obj.prompt}}"></i>
   </div>
   <div class="col" style="padding-left: 0;padding-right:2%;">
     <p style="margin-bottom: 0; white-space: pre-line;">{{search_obj.prompt}}</p>
@@ -9,7 +9,7 @@
 </div>
 <div class="row promptRow" style="width:100%; margin-bottom:2vh; ">
 <div class="col-20-1">
-  <img src="{{ url_for('static',filename='assets/images/favicon.svg') }}" alt="" width="20"style="margin-left: 1vh; margin-top:0.5vh;" />
+  <img src="{{ url_for('static',filename='assets/images/favicon.svg') }}" alt="" width="20"style="margin-left: 1vh; margin-top:0.5vh;" onclick="copyClipboard(this)" text="{{search_obj.response}}\n\nRelevant Documents:\n{% for title in search_obj.titles %}{{title}}\n{% endfor %}"/>
 </div>
 <div class="col" style="padding-left: 0;padding-right:2%;">
   <p style="margin-bottom: 0; white-space: pre-line;">{{search_obj.response}}</p>

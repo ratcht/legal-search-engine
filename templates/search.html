@@ -194,8 +194,8 @@
 
     </div>
     <script>
-        function copyToClipboard(text) {
-          navigator.clipboard.writeText(text)
+        function copyClipboard(e) {
+          navigator.clipboard.writeText(e.getAttribute('text').replaceAll("\\n", "\n"));
         }
         function loadSearch(type, cut=5, start=0) {
           console.log("In!")
