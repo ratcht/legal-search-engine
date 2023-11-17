@@ -508,12 +508,6 @@ def admin_verify():
 # Home Routes
 #====================================================
 
-@app.route("/waitlist/page", methods=["GET"])
-def waitlist_page():
-
-  return render_template("waitlist.html")
-
-
 @app.route("/1234/pages/contact", methods=["GET"])
 def contact_page():  
   logging.info("In Contact Page")
@@ -556,10 +550,14 @@ def pricing_page():
   return render_template("pricing.html", signed_in = signed_in, user = user)
 
 
+@app.route("/waitlist", methods=["GET"])
+def waitlist():
+  return render_template("waitlist.html")
+
 @app.route("/", methods=["GET"])
 @app.route("/home", methods=["GET"])
 def temp_index():
-  return redirect(url_for('waitlist_page'))
+  return redirect(url_for('waitlist'))
 
 @app.route("/1234", methods=["GET"])
 @app.route("/1234/home", methods=["GET"])
